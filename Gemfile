@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 8.1.0"
-gem 'bootstrap', '~> 5.3.0'
-gem 'sassc-rails'
+gem "bootstrap", "~> 5.3.0"
+gem "sassc-rails"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
@@ -38,7 +38,7 @@ group :test do
   gem "cucumber-rails", require: false
   gem "database_cleaner-active_record"
   gem "shoulda-matchers", "~> 5.0"
-  gem 'rails-controller-testing', '~> 1.0'
+  gem "rails-controller-testing", "~> 1.0"
   gem "simplecov", require: false
 end
 

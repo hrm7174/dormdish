@@ -7,8 +7,8 @@ Recipe.create!([
     meal_type: "dinner",
     prep_time: 10,
     cost: 3.5,
-    appliances_needed: ["Microwave"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Microwave" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Pasta, Cheese, Milk"
   },
   {
@@ -17,7 +17,7 @@ Recipe.create!([
     prep_time: 5,
     cost: 2.0,
     appliances_needed: [],
-    dietary_tags: ["Vegetarian"],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Oats, Milk, Honey, Banana"
   },
   {
@@ -25,7 +25,7 @@ Recipe.create!([
     meal_type: "dinner",
     prep_time: 20,
     cost: 8.0,
-    appliances_needed: ["Hot Plate"],
+    appliances_needed: [ "Hot Plate" ],
     dietary_tags: [],
     ingredients: "Chicken, Veggies, Soy Sauce"
   }
