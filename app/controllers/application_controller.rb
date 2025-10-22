@@ -1,3 +1,9 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  helper_method :current_profile
+
+  private
+
+  def current_profile
+    @current_profile ||= UserProfile.find_by(id: session[:user_profile_id])
+  end
 end

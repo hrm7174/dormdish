@@ -1,0 +1,353 @@
+@import "bootstrap";
+
+// ============================================
+// Color Palette
+// ============================================
+$primary: #6366f1;
+$secondary: #8b5cf6;
+$success: #10b981;
+$danger: #ef4444;
+$warning: #f59e0b;
+$info: #3b82f6;
+
+$soft-bg: #f8f9fa;
+$soft-purple: #f3f4f6;
+$gradient-start: #ddd6fe;
+$gradient-end: #e9d5ff;
+
+// ============================================
+// Base Styles
+// ============================================
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  background: linear-gradient(135deg, $gradient-start 0%, $gradient-end 100%);
+  min-height: 100vh;
+}
+
+.bg-body {
+  background: transparent !important;
+}
+
+// ============================================
+// Navbar
+// ============================================
+.navbar-dorm {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 0 0 20px 20px;
+  margin-bottom: 0;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a !important;
+  letter-spacing: -0.02em;
+}
+
+.navbar-nav .nav-link {
+  color: #4a4a4a;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+// ============================================
+// Hero/Header Section
+// ============================================
+.hero-gradient {
+  background: linear-gradient(135deg, #fafafa 0%, white 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+// ============================================
+// Buttons
+// ============================================
+.btn-pill {
+  border-radius: 50px;
+  padding: 0.65rem 1.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  &.btn-lg {
+    padding: 0.9rem 2.5rem;
+    font-size: 1.1rem;
+  }
+
+  &.btn-sm {
+    padding: 0.4rem 1.2rem;
+    font-size: 0.875rem;
+  }
+}
+
+.btn-primary {
+  background: $primary;
+  border-color: $primary;
+
+  &:hover, &:focus {
+    background: darken($primary, 8%);
+    border-color: darken($primary, 8%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($primary, 0.3);
+  }
+}
+
+.btn-primary-subtle {
+  background: rgba($primary, 0.1);
+  color: $primary;
+  border: none;
+
+  &:hover, &:focus {
+    background: rgba($primary, 0.15);
+    color: $primary;
+  }
+}
+
+.btn-success {
+  background: $success;
+  border-color: $success;
+
+  &:hover, &:focus {
+    background: darken($success, 8%);
+    border-color: darken($success, 8%);
+  }
+}
+
+.btn-outline-secondary {
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline-danger {
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+// ============================================
+// Cards
+// ============================================
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card-title {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+// ============================================
+// Badges
+// ============================================
+.badge {
+  padding: 0.35em 0.75em;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.badge-meal {
+  background: rgba($info, 0.15);
+  color: darken($info, 10%);
+}
+
+.badge-diet {
+  background: rgba($success, 0.15);
+  color: darken($success, 10%);
+}
+
+.badge-appliance {
+  background: rgba($secondary, 0.15);
+  color: darken($secondary, 10%);
+}
+
+// ============================================
+// Alerts
+// ============================================
+.alert-soft {
+  border: none;
+  border-radius: 12px;
+}
+
+// ============================================
+// Budget Progress Bar
+// ============================================
+.budget-wrap {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.progress {
+  height: 12px;
+  border-radius: 50px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-bar {
+  border-radius: 50px;
+  transition: width 0.6s ease;
+}
+
+.bg-soft-success {
+  background: linear-gradient(90deg, $success 0%, lighten($success, 10%) 100%);
+}
+
+.bg-soft-warn {
+  background: linear-gradient(90deg, $warning 0%, lighten($warning, 10%) 100%);
+}
+
+.bg-soft-danger {
+  background: linear-gradient(90deg, $danger 0%, lighten($danger, 10%) 100%);
+}
+
+// ============================================
+// Tables
+// ============================================
+.table-meal {
+  th, td {
+    vertical-align: top;
+    padding: 1rem;
+  }
+
+  th {
+    font-weight: 600;
+    background: $soft-bg;
+  }
+
+  td {
+    min-width: 180px;
+  }
+
+  .card {
+    margin: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+// ============================================
+// Shopping List
+// ============================================
+.list-group-item {
+  border-radius: 8px !important;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    background: $soft-bg;
+  }
+}
+
+.list-check:checked ~ .form-check-label {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+// ============================================
+// Forms
+// ============================================
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 0.65rem 1rem;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+// ============================================
+// Footer
+// ============================================
+.footer {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem 0;
+  margin-top: 4rem;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+// ============================================
+// Responsive
+// ============================================
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .hero-gradient {
+    padding: 1rem 0 !important;
+  }
+
+  .display-5 {
+    font-size: 1.75rem !important;
+  }
+
+  .table-meal td {
+    min-width: 150px;
+  }
+}
+
+// ============================================
+// Animations
+// ============================================
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card, .alert {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+// ============================================
+// Utilities
+// ============================================
+.text-muted {
+  color: #6b7280 !important;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+main {
+  animation: fadeInUp 0.5s ease-out;
+}

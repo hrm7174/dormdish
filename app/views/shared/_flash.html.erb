@@ -1,0 +1,8 @@
+<% flash.each do |type, message| %>
+  <% next if message.blank? %>
+  <div class="alert <%= flash_class(type) %> alert-dismissible fade show" role="alert">
+    <%= message.is_a?(Array) ? message.join('<br>').html_safe : message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+<% flash.clear %>

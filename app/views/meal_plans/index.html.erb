@@ -1,0 +1,72 @@
+<% content_for :page_header do %>
+  <h1 class="h3 mb-0">My Weekly Meal Plan</h1>
+<% end %>
+
+<% percentage = current_profile.weekly_budget.to_f.zero? ? 0 : (@weekly_total / current_profile.weekly_budget * 100).round %>
+<% bar_class = if percentage > 100 then 'bg-soft-danger'
+                elsif percentage > 80 then 'bg-soft-warn'
+                else 'bg-soft-success' end %>
+
+<div class="budget-wrap mb-3">
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <div>
+      <strong>Weekly total:</strong>
+      $<%= number_with_precision(@weekly_total, precision: 2) %>
+      / $<%= number_with_precision(current_profile.weekly_budget, precision: 2) %>
+    </div>
+    <div class="text-muted small"><%= percentage %>% of budget</div>
+  </div>
+  <div class="progress">
+    <div class="progress-bar <%= bar_class %>" style="width: <%= [percentage,100].min %>%"></div>
+  </div>
+</div>
+
+<% if @exceeds_budget %>
+  <div class="alert alert-warning alert-soft">
+    <strong>Warning:</strong> Your meal plan exceeds your weekly budget.
+  </div>
+<% end %>
+
+<div class="d-flex gap-2 mb-3">
+  <%= link_to "Generate Shopping List", shopping_list_path, class: "btn btn-primary btn-pill" %>
+  <%= link_to "Browse Recipes", recipes_path, class: "btn btn-outline-secondary btn-pill" %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-meal">
+    <thead class="table-light">
+      <tr>
+        <th style="width:140px">Day</th>
+        <% @meal_types.each { |m| %><th><%= m.capitalize %></th><% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @days.each do |day| %>
+        <tr>
+          <th class="align-middle"><%= day %></th>
+          <% @meal_types.each do |meal_type| %>
+            <td id="<%= "#{day.downcase}-#{meal_type}" %>">
+              <% meal = @meal_plans.find { |mp| mp.day == day && mp.meal_type == meal_type } %>
+              <% if meal %>
+                <div class="card">
+                  <div class="card-body p-2">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <strong><%= meal.recipe.name %></strong><br>
+                        <small class="text-muted">$<%= number_with_precision(meal.recipe.cost, precision: 2) %></small>
+                      </div>
+                      <%= button_to "Remove", meal_plan_path(meal), method: :delete,
+                            class: "btn btn-sm btn-outline-danger btn-pill" %>
+                    </div>
+                  </div>
+                </div>
+              <% else %>
+                <span class="text-muted small">No meal planned</span>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

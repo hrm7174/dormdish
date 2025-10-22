@@ -1,7 +1,9 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 8.1.0"
-gem "propshaft"
+gem 'bootstrap', '~> 5.3.0'
+gem 'sassc-rails'
+gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
@@ -24,7 +26,6 @@ group :development, :test do
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
 
-  # ✅ Testing stack
   gem "rspec-rails", "~> 6.0"
   gem "factory_bot_rails"
   gem "faker"
