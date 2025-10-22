@@ -36,9 +36,11 @@
               </li>
             </ul>
           <% else %>
-            <div class="ms-auto">
-              <%= link_to "Get Started", new_user_profile_path, class: "btn btn-pill btn-primary" %>
-            </div>
+            <% unless current_page?(root_path) %>
+              <div class="ms-auto">
+                <%= link_to "Get Started", new_user_profile_path, class: "btn btn-pill btn-primary" %>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -58,6 +60,7 @@
     <footer class="footer">
       <div class="container d-flex flex-column flex-md-row align-items-center gap-2 justify-content-between">
         <span class="text-muted">&copy; <%= Time.current.year %> DormDish</span>
+        <span class="small text-muted">Built with Rails, Bootstrap, and lots of snacks 🍪</span>
       </div>
     </footer>
   </body>
