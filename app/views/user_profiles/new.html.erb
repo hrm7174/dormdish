@@ -1,0 +1,24 @@
+<h2>Create Your Profile</h2>
+<%= form_with(model: @user_profile, local: true) do |f| %>
+  <div class="mb-3">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :weekly_budget %>
+    <%= f.number_field :weekly_budget, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :appliances, "Available Appliances" %><br>
+    <%= f.collection_check_boxes :appliances, ["Microwave", "Mini Fridge", "Hot Plate"], :to_s, :to_s %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :dietary_preferences, "Dietary Preferences" %><br>
+    <%= f.collection_check_boxes :dietary_preferences, ["Vegetarian", "Vegan", "Gluten-Free"], :to_s, :to_s %>
+  </div>
+
+  <%= f.submit "Create Profile", class: "btn btn-success" %>
+<% end %>

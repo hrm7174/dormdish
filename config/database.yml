@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: <%= ENV.fetch("PGUSER") { `whoami`.strip } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: dormdish_development
+
+test:
+  <<: *default
+  database: dormdish_test
+
+production:
+  <<: *default
+  database: dormdish_production
+  url: <%= ENV['DATABASE_URL'] %>

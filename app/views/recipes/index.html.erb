@@ -1,0 +1,37 @@
+<h2>Recommended Recipes</h2>
+
+<%= form_with url: recipes_path, method: :get, local: true, class: "mb-4" do |f| %>
+  <div class="row">
+    <div class="col-md-3">
+      <%= f.label :meal_type, "Meal Type" %>
+      <%= f.select :meal_type, options_for_select(["breakfast", "lunch", "dinner"], params[:meal_type]), include_blank: true, class: "form-control" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :max_cost, "Max Cost" %>
+      <%= f.number_field :max_cost, step: 0.5, value: params[:max_cost], class: "form-control" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :search, "Search by Name" %>
+      <%= f.text_field :search, value: params[:search], class: "form-control" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.submit "Filter", class: "btn btn-primary w-100 mb-2" %>
+      <%= f.submit "Search", class: "btn btn-secondary w-100" %>
+      <%= link_to "Clear", recipes_path, class: "btn btn-link w-100 mt-2" %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <% @recipes.each do |recipe| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= link_to recipe.name, recipe_path(recipe) %></h5>
+          <p><strong>Meal:</strong> <%= recipe.meal_type %></p>
+          <p><strong>Cost:</strong> $<%= recipe.cost %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
