@@ -17,6 +17,19 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.find(params[:id])
   end
 
+  def edit
+    @user_profile = UserProfile.find(params[:id])
+  end
+
+  def update
+    @user_profile = UserProfile.find(params[:id])
+    if @user_profile.update(user_profile_params)
+      redirect_to @user_profile, notice: "Profile updated successfully!"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_profile_params

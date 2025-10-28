@@ -1,0 +1,28 @@
+<% content_for :page_header do %>
+    <h1 class="h3 mb-0">Shopping Lists</h1>
+  <% end %>
+  
+  <div class="container">
+    <% if @shopping_lists.any? %>
+      <div class="row">
+        <% @shopping_lists.each do |shopping_list| %>
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Shopping List #<%= shopping_list.id %></h5>
+                <p class="text-muted">
+                  Created: <%= shopping_list.created_at.strftime("%B %d, %Y") %>
+                </p>
+                <%= link_to "View Details", shopping_list_path(shopping_list), class: "btn btn-primary btn-pill" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="alert alert-info">
+        <p>You don't have any shopping lists yet.</p>
+        <%= link_to "Generate from Meal Plan", meal_plans_path, class: "btn btn-primary btn-pill" %>
+      </div>
+    <% end %>
+  </div>

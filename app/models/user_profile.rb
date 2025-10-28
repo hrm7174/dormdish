@@ -4,4 +4,5 @@ class UserProfile < ApplicationRecord
 
   has_many :meal_plans, dependent: :destroy
   has_many :recipes, through: :meal_plans
+  has_many :shopping_lists, dependent: :destroy
 end
