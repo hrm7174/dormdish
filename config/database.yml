@@ -17,3 +17,11 @@ production:
   <<: *default
   database: dormdish_production
   url: <%= ENV['DATABASE_URL'] %>
+
+cable:
+  <<: *default
+  database: dormdish_cable_development
+
+queue:
+  <<: *default
+  database: dormdish_queue_development
