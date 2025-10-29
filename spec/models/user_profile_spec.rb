@@ -21,4 +21,9 @@ RSpec.describe UserProfile, type: :model do
   it "is valid with name and weekly_budget > 0" do
     expect(described_class.new(name: "Heidy", weekly_budget: 25)).to be_valid
   end
+  
+  # === Associations ===
+  it { is_expected.to have_many(:meal_plans).dependent(:destroy) }
+  it { is_expected.to have_many(:recipes).through(:meal_plans) }
+  it { is_expected.to have_many(:shopping_lists).dependent(:destroy) }
 end

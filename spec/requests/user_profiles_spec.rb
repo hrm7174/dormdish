@@ -27,6 +27,21 @@ RSpec.describe "UserProfiles", type: :request do
       expect(response.body).to include("Recipes").or include("Browse Recipes")
     end
 
+    it "stores the created profile id in session" do
+        post user_profiles_path, params: {
+          user_profile: {
+            name: "Heidy",
+            weekly_budget: 25,
+            available_appliances: [ "Microwave" ],
+            dietary_preferences: [ "Vegetarian" ]
+          }
+        }
+  
+        expect(response).to redirect_to(recipes_path)
+        expect(session[:user_profile_id]).to be_present
+      end
+  
+
     it "re-renders new with validation errors on failure" do
       post user_profiles_path, params: {
         user_profile: { name: "", weekly_budget: "" }
@@ -46,3 +61,5 @@ RSpec.describe "UserProfiles", type: :request do
     end
   end
 end
+
+  
