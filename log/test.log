@@ -207,3 +207,725 @@ Processing by RecipesController#index as HTML
   Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
 Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.4ms (2 queries, 0 cached) | GC: 0.0ms)
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35mSQL (2.1ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "meal_plans" CASCADE[0m
+  [1m[35m (14.1ms)[0m  [1m[35mCREATE TABLE "meal_plans" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "recipe_id" bigint NOT NULL, "updated_at" timestamp(6) NOT NULL, "user_profile_id" bigint NOT NULL)[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_recipe_id" ON "meal_plans" ("recipe_id")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_user_profile_id" ON "meal_plans" ("user_profile_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "recipes" CASCADE[0m
+  [1m[35m (7.8ms)[0m  [1m[35mCREATE TABLE "recipes" ("id" bigserial primary key, "appliances_needed" text[] DEFAULT '{}', "cost" float, "created_at" timestamp(6) NOT NULL, "dietary_tags" text[] DEFAULT '{}', "ingredients" text, "meal_type" character varying, "name" character varying, "prep_time" integer, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_profiles" CASCADE[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "user_profiles" ("id" bigserial primary key, "appliances" text[] DEFAULT '{}', "created_at" timestamp(6) NOT NULL, "dietary_preferences" text[] DEFAULT '{}', "name" character varying, "updated_at" timestamp(6) NOT NULL, "weekly_budget" float)[0m
+  [1m[35m (4.0ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_757efcc95e"
+FOREIGN KEY ("recipe_id")
+  REFERENCES "recipes" ("id")
+[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_ff510d63d4"
+FOREIGN KEY ("user_profile_id")
+  REFERENCES "user_profiles" ("id")
+[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20241022000003)[0m
+  [1m[35m (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20241022000002),
+(20241022000001);[0m
+  [1m[35m (5.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-10-29 05:42:42.895390', '2025-10-29 05:42:42.895393') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'dfa5f4190337ba5d49ae2dbc6bc19a4980807539', '2025-10-29 05:42:42.898011', '2025-10-29 05:42:42.898013') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUserProfile Load (0.6ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles"[0m
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecipe Create (1.2ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:42:42.935688"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "Pasta, Cheese, Milk"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:42:42.935688"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:42:42.938903"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "Oats, Milk, Honey, Banana"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:42:42.938903"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:42:42.940426"], ["dietary_tags", "{}"], ["ingredients", "Chicken, Veggies, Soy Sauce"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:42:42.940426"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.5ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:42:44.659478"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:42:44.659478"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.8ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:42:44.668278"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:42:44.668278"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:42:44.669780"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:42:44.669780"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:42:44.670770"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:42:44.670770"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (1.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 224ms (Views: 3.5ms | ActiveRecord: 2.4ms (2 queries, 0 cached) | GC: 95.9ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.0ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:42:44.965688"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:42:44.965688"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.6ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:42:44.967652"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:42:44.967652"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.6ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:42:44.968840"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:42:44.968840"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:42:44.969977"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:42:44.969977"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.5ms | ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.2ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:47:05.316999"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:47:05.316999"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (1.1ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:47:05.324557"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:47:05.324557"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.3ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:47:05.326233"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:47:05.326233"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:47:05.326959"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:47:05.326959"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (1.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 66ms (Views: 1.4ms | ActiveRecord: 1.9ms (2 queries, 0 cached) | GC: 13.1ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:47:05.409903"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:47:05.409903"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:47:05.411191"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:47:05.411191"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:47:05.412100"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:47:05.412100"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:47:05.412960"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:47:05.412960"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:47:05 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (1.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3971.5ms | GC: 130.1ms)
+Completed 200 OK in 3972ms (Views: 3970.9ms | ActiveRecord: 1.0ms (1 query, 0 cached) | GC: 130.1ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:47:09 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.7ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave,\"Mini Fridge\"}"], ["created_at", "2025-10-29 05:47:09.400960"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:47:09.400960"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 4ms (ActiveRecord: 1.0ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:47:09 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 4.1ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.7ms | GC: 0.0ms)
+Completed 200 OK in 8ms (Views: 6.9ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:47:09.448334"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:47:09.448334"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/6" for 127.0.0.1 at 2025-10-29 01:47:09 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "6"}
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 5.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.6ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.5ms | GC: 0.0ms)
+Completed 200 OK in 11ms (Views: 8.5ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:49:13.944329"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:13.944329"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.6ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:49:13.950767"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:49:13.950767"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:49:13.951802"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:49:13.951802"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.3ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:49:13.952566"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:49:13.952566"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.9ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 65ms (Views: 1.4ms | ActiveRecord: 1.7ms (2 queries, 0 cached) | GC: 12.5ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.5ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:49:14.034214"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:14.034214"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:49:14.035354"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:49:14.035354"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:49:14.036208"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:49:14.036208"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (11.6ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:49:14.037011"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:49:14.037011"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.3ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:49:14 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.7ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 290.6ms | GC: 34.6ms)
+Completed 200 OK in 291ms (Views: 290.2ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 34.6ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:49:14 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.9ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave,\"Mini Fridge\"}"], ["created_at", "2025-10-29 05:49:14.348372"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:49:14.348372"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 2ms (ActiveRecord: 1.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:49:14 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.4ms | GC: 0.1ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.3ms | GC: 0.1ms)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.7ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:49:14.358136"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:14.358136"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/10" for 127.0.0.1 at 2025-10-29 01:49:14 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "10"}
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.5ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.1ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:49:25.203815"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:25.203815"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.8ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:49:25.212722"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:49:25.212722"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:49:25.214206"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:49:25.214206"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:49:25.215801"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:49:25.215801"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (1.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 126ms (Views: 2.9ms | ActiveRecord: 2.0ms (2 queries, 0 cached) | GC: 28.2ms)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:49:25.370024"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:25.370024"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.6ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:49:25.371865"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:49:25.371865"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:49:25.373073"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:49:25.373073"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:49:25.374213"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:49:25.374213"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.5ms | ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:49:25 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 2.6ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (1.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 663.3ms | GC: 77.0ms)
+Completed 200 OK in 664ms (Views: 662.8ms | ActiveRecord: 1.1ms (1 query, 0 cached) | GC: 77.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:49:26 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave,\"Mini Fridge\"}"], ["created_at", "2025-10-29 05:49:26.056707"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:49:26.056707"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 3ms (ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:49:26 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 3.1ms | GC: 0.3ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.0ms | GC: 0.3ms)
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.3ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:49:26.077054"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:49:26.077054"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/14" for 127.0.0.1 at 2025-10-29 01:49:26 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "14"}
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 2.8ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.6ms | GC: 0.0ms)
+Completed 200 OK in 6ms (Views: 4.6ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.7ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:50:22.116466"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:22.116466"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:50:22.123089"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:50:22.123089"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:50:22.123932"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:50:22.123932"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:50:22.125247"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:50:22.125247"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.8ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 65ms (Views: 1.4ms | ActiveRecord: 1.4ms (2 queries, 0 cached) | GC: 13.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:50:22.206363"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:22.206363"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:50:22.207664"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:50:22.207664"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:50:22.208553"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:50:22.208553"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:50:22.209413"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:50:22.209413"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.0ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:50:22 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.6ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 294.0ms | GC: 35.0ms)
+Completed 200 OK in 294ms (Views: 293.6ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 35.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:50:22 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+[31mUnpermitted parameter: :available_appliances. Context: { controller: UserProfilesController, action: create, request: #<ActionDispatch::Request:0x000000014203dc00>, params: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}, "controller" => "user_profiles", "action" => "create"} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:50:22.513695"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:50:22.513695"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 2ms (ActiveRecord: 1.3ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/recipes" for 127.0.0.1 at 2025-10-29 01:50:22 -0400
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 1.7ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.4ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 2.7ms | ActiveRecord: 0.6ms (3 queries, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:50:22 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.1ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.7ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:50:22.527329"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:22.527329"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/18" for 127.0.0.1 at 2025-10-29 01:50:22 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "18"}
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.1ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.9ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.1ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:50:48.384660"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:48.384660"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.8ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:50:48.392028"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:50:48.392028"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:50:48.393283"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:50:48.393283"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:50:48.394192"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:50:48.394192"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.9ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 65ms (Views: 1.4ms | ActiveRecord: 1.6ms (2 queries, 0 cached) | GC: 12.6ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:50:48.476023"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:48.476023"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:50:48.477283"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:50:48.477283"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:50:48.478147"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:50:48.478147"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:50:48.478963"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:50:48.478963"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:50:48 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 2.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.7ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 295.4ms | GC: 34.8ms)
+Completed 200 OK in 296ms (Views: 295.1ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 34.8ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:50:48 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+[31mUnpermitted parameter: :available_appliances. Context: { controller: UserProfilesController, action: create, request: #<ActionDispatch::Request:0x0000000138a59068>, params: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}, "controller" => "user_profiles", "action" => "create"} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.8ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:50:48.792458"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:50:48.792458"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 2ms (ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.2ms)
+Started GET "/recipes" for 127.0.0.1 at 2025-10-29 01:50:48 -0400
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 1.6ms | GC: 0.1ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.3ms | GC: 0.1ms)
+Completed 200 OK in 5ms (Views: 2.5ms | ActiveRecord: 0.6ms (3 queries, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:50:48 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.7ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:50:48.804876"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:50:48.804876"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/22" for 127.0.0.1 at 2025-10-29 01:50:48 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "22"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 22], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.1ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.9ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:55:17.617472"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:55:17.617472"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.9ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:55:17.623858"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:55:17.623858"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:55:17.625261"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:55:17.625261"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.4ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:55:17.626446"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:55:17.626446"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (1.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 66ms (Views: 1.4ms | ActiveRecord: 2.0ms (2 queries, 0 cached) | GC: 13.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 05:55:17.709670"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:55:17.709670"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 05:55:17.710979"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 05:55:17.710979"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.2ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 05:55:17.711833"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 05:55:17.711833"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.3ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 05:55:17.712426"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 05:55:17.712426"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.0ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.2ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 01:55:17 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.7ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.4ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 300.7ms | GC: 37.1ms)
+Completed 200 OK in 302ms (Views: 300.4ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 37.1ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:55:18 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+[31mUnpermitted parameter: :available_appliances. Context: { controller: UserProfilesController, action: create, request: #<ActionDispatch::Request:0x000000012717c6e0>, params: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}, "controller" => "user_profiles", "action" => "create"} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.4ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:55:18.022781"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 05:55:18.022781"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 1ms (ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.1ms)
+Started GET "/recipes" for 127.0.0.1 at 2025-10-29 01:55:18 -0400
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 1.5ms | GC: 0.1ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 25], ["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.1ms | GC: 0.1ms)
+Completed 200 OK in 4ms (Views: 2.3ms | ActiveRecord: 0.3ms (3 queries, 0 cached) | GC: 0.1ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 01:55:18 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.0ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.7ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.4ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 05:55:18.034180"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 05:55:18.034180"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/26" for 127.0.0.1 at 2025-10-29 01:55:18 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "26"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 26], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.9ms | ActiveRecord: 0.3ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m

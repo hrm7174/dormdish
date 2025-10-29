@@ -16,8 +16,8 @@ RSpec.describe "UserProfiles", type: :request do
         user_profile: {
           name: "Heidy",
           weekly_budget: 25,
-          available_appliances: ["Microwave", "Mini Fridge"],
-          dietary_preferences: ["Vegetarian"]
+          available_appliances: [ "Microwave", "Mini Fridge" ],
+          dietary_preferences: [ "Vegetarian" ]
         }
       }
       expect(response).to redirect_to(recipes_path)
