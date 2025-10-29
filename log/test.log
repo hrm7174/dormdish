@@ -4108,3 +4108,202 @@ Processing by UserProfilesController#update as HTML
 Redirected to http://www.example.com/user_profiles/157
 Completed 302 Found in 2ms (ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
   [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (1.2ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 23:03:15.715646"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 23:03:15.715646"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.7ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 23:03:15.722979"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 23:03:15.722979"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.3ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 23:03:15.724422"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 23:03:15.724422"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 23:03:15.725322"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 23:03:15.725322"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.6ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 170], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 107ms (Views: 2.6ms | ActiveRecord: 1.4ms (2 queries, 0 cached) | GC: 13.3ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.6ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{Microwave}"], ["created_at", "2025-10-29 23:03:15.860394"], ["dietary_preferences", "{Vegetarian}"], ["name", "Alex"], ["updated_at", "2025-10-29 23:03:15.860394"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.5ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{Microwave}"], ["cost", 3.5], ["created_at", "2025-10-29 23:03:15.861590"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "pasta"], ["meal_type", "dinner"], ["name", "Microwave Mac & Cheese"], ["prep_time", 10], ["updated_at", "2025-10-29 23:03:15.861590"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (10.8ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 2.0], ["created_at", "2025-10-29 23:03:15.862494"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "oats"], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 5], ["updated_at", "2025-10-29 23:03:15.862494"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (0.3ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "meal_type", "name", "prep_time", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["appliances_needed", "{\"Hot Plate\"}"], ["cost", 8.0], ["created_at", "2025-10-29 23:03:15.873872"], ["dietary_tags", "{}"], ["ingredients", "chicken"], ["meal_type", "dinner"], ["name", "Chicken Stir Fry"], ["prep_time", 20], ["updated_at", "2025-10-29 23:03:15.873872"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 171], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered layout layouts/application.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.4ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/meal_plans" for 127.0.0.1 at 2025-10-29 19:03:15 -0400
+Processing by MealPlansController#index as HTML
+  [1m[36mMealPlan Sum (2.0ms)[0m  [1m[34mSELECT SUM("recipes"."cost") FROM "meal_plans" INNER JOIN "recipes" ON "recipes"."id" = "meal_plans"."recipe_id"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering meal_plans/index.html.erb within layouts/application
+  [1m[36mMealPlan Load (0.4ms)[0m  [1m[34mSELECT "meal_plans".* FROM "meal_plans"[0m
+  Rendered meal_plans/index.html.erb within layouts/application (Duration: 3.2ms | GC: 0.2ms)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 293.5ms | GC: 8.0ms)
+Completed 200 OK in 317ms (Views: 293.4ms | ActiveRecord: 3.0ms (2 queries, 0 cached) | GC: 25.2ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.6ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/shopping_lists" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by ShoppingListsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering shopping_lists/index.html.erb within layouts/application
+  Rendered shopping_lists/index.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/shopping_lists/1" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by ShoppingListsController#show as HTML
+  Parameters: {"id" => "1"}
+  Rendering layout layouts/application.html.erb
+  Rendering shopping_lists/show.html.erb within layouts/application
+  Rendered shopping_lists/show.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 2.2ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.0ms | GC: 0.0ms)
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}}
+[31mUnpermitted parameter: :available_appliances. Context: { controller: UserProfilesController, action: create, request: #<ActionDispatch::Request:0x0000000129bf3f40>, params: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave", "Mini Fridge"], "dietary_preferences" => ["Vegetarian"]}, "controller" => "user_profiles", "action" => "create"} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.5ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 23:03:16.260875"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 23:03:16.260875"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 1ms (ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/recipes" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by RecipesController#index as HTML
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 172], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.8ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 172], ["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.4ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 1.6ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave"], "dietary_preferences" => ["Vegetarian"]}}
+[31mUnpermitted parameter: :available_appliances. Context: { controller: UserProfilesController, action: create, request: #<ActionDispatch::Request:0x000000012d3fcb30>, params: {"user_profile" => {"name" => "Heidy", "weekly_budget" => "25", "available_appliances" => ["Microwave"], "dietary_preferences" => ["Vegetarian"]}, "controller" => "user_profiles", "action" => "create"} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.4ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 23:03:16.269919"], ["dietary_preferences", "{Vegetarian}"], ["name", "Heidy"], ["updated_at", "2025-10-29 23:03:16.269919"], ["weekly_budget", 25.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/recipes
+Completed 302 Found in 1ms (ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/user_profiles" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#create as HTML
+  Parameters: {"user_profile" => {"name" => "", "weekly_budget" => ""}}
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.1ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.0ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.3ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 23:03:16.276073"], ["dietary_preferences", "{}"], ["name", "Alex"], ["updated_at", "2025-10-29 23:03:16.276073"], ["weekly_budget", 50.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/user_profiles/174" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#show as HTML
+  Parameters: {"id" => "174"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 174], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/show.html.erb within layouts/application
+  Rendered user_profiles/show.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.1ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.0ms | ActiveRecord: 0.3ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Create (0.3ms)[0m  [1m[32mINSERT INTO "user_profiles" ("appliances", "created_at", "dietary_preferences", "name", "updated_at", "weekly_budget") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["appliances", "{}"], ["created_at", "2025-10-29 23:03:16.279639"], ["dietary_preferences", "{}"], ["name", "Alice"], ["updated_at", "2025-10-29 23:03:16.279639"], ["weekly_budget", 10.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started PATCH "/user_profiles/175" for 127.0.0.1 at 2025-10-29 19:03:16 -0400
+Processing by UserProfilesController#update as HTML
+  Parameters: {"user_profile" => {"weekly_budget" => "15"}, "id" => "175"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" = $1 LIMIT $2[0m  [["id", 175], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUserProfile Update (0.6ms)[0m  [1m[33mUPDATE "user_profiles" SET "updated_at" = $1, "weekly_budget" = $2 WHERE "user_profiles"."id" = $3[0m  [["updated_at", "2025-10-29 23:03:16.281056"], ["weekly_budget", 15.0], ["id", 175]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/user_profiles/175
+Completed 302 Found in 2ms (ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m

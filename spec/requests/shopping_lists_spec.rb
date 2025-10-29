@@ -15,7 +15,7 @@ RSpec.describe "ShoppingLists", type: :request do
     end
   end
 
-  # spec/requests/shopping_lists_spec.rb
+# spec/requests/shopping_lists_spec.rb
 describe "GET /shopping_lists/:id" do
     it "renders the show successfully (stubbed class + find)" do
       # Replace AR model with a plain Ruby class that implements what the view/controller need.
@@ -27,12 +27,11 @@ describe "GET /shopping_lists/:id" do
         # important: provide the class method Rails calls
         def self.find(_id) = new(id: 1)
       end
-  
+
       stub_const("ShoppingList", FakeShoppingList)
-  
+
       get shopping_list_path(id: 1)
       expect(response).to have_http_status(:ok)
     end
   end
-  
 end
