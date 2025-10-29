@@ -1,6 +1,7 @@
 class ShoppingListsController < ApplicationController
   def show
     @shopping_list = ShoppingList.find(params[:id])
+    @items = @shopping_list.respond_to?(:items) ? (@shopping_list.items || []) : []
   end
 
   def index

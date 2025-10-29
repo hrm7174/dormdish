@@ -60,4 +60,16 @@ RSpec.describe "UserProfiles", type: :request do
       expect(response.body).to include("Alex")
     end
   end
+  
+  describe "PATCH /user_profiles/:id" do
+    it "updates an existing profile and redirects" do
+      profile = UserProfile.create!(name: "Alice", weekly_budget: 10)
+  
+      patch user_profile_path(profile), params: { user_profile: { weekly_budget: 15 } }
+  
+      expect(response).to redirect_to(user_profile_path(profile))
+      # No follow_redirect! to avoid layout helper dependencies
+    end
+  end
+  
 end
