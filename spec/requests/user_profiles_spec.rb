@@ -36,11 +36,11 @@ RSpec.describe "UserProfiles", type: :request do
             dietary_preferences: [ "Vegetarian" ]
           }
         }
-  
+
         expect(response).to redirect_to(recipes_path)
         expect(session[:user_profile_id]).to be_present
       end
-  
+
 
     it "re-renders new with validation errors on failure" do
       post user_profiles_path, params: {
@@ -61,5 +61,3 @@ RSpec.describe "UserProfiles", type: :request do
     end
   end
 end
-
-  
