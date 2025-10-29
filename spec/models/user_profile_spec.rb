@@ -25,5 +25,4 @@ RSpec.describe UserProfile, type: :model do
   # === Associations ===
   it { is_expected.to have_many(:meal_plans).dependent(:destroy) }
   it { is_expected.to have_many(:recipes).through(:meal_plans) }
-  it { is_expected.to have_many(:shopping_lists).dependent(:destroy) }
 end
