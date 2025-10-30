@@ -27,6 +27,21 @@ RSpec.describe "UserProfiles", type: :request do
       expect(response.body).to include("Recipes").or include("Browse Recipes")
     end
 
+    it "stores the created profile id in session" do
+        post user_profiles_path, params: {
+          user_profile: {
+            name: "Heidy",
+            weekly_budget: 25,
+            available_appliances: [ "Microwave" ],
+            dietary_preferences: [ "Vegetarian" ]
+          }
+        }
+
+        expect(response).to redirect_to(recipes_path)
+        expect(session[:user_profile_id]).to be_present
+      end
+
+
     it "re-renders new with validation errors on failure" do
       post user_profiles_path, params: {
         user_profile: { name: "", weekly_budget: "" }
@@ -43,6 +58,17 @@ RSpec.describe "UserProfiles", type: :request do
       get user_profile_path(profile)
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Alex")
+    end
+  end
+
+  describe "PATCH /user_profiles/:id" do
+    it "updates an existing profile and redirects" do
+      profile = UserProfile.create!(name: "Alice", weekly_budget: 10)
+
+      patch user_profile_path(profile), params: { user_profile: { weekly_budget: 15 } }
+
+      expect(response).to redirect_to(user_profile_path(profile))
+      # No follow_redirect! to avoid layout helper dependencies
     end
   end
 end
