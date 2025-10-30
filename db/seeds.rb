@@ -33,4 +33,3 @@ Recipe.create!([
     instructions: "Cook chicken and veggies on hot plate, mix with sauce."
   }
 ])
-

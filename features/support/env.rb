@@ -21,7 +21,7 @@ end
 
 World(SessionHelpers)
 
-#for capybara thingz
+# for capybara thingz
 Before do
   if Capybara.current_driver == :rack_test
     page.driver.browser.set_cookie('screen_size=large')

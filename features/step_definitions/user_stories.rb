@@ -1,19 +1,26 @@
 # frozen_string_literal: true
+
 require "capybara/rails"
 require "capybara/cucumber"
 
 Given("I am logged in as {string}") do |name|
-  @user_profile = UserProfile.find_or_initialize_by(name: name)
-  @user_profile.assign_attributes(
-    weekly_budget: 50,
-    appliances: ["Microwave"],
-    dietary_preferences: ["Vegetarian"]
-  )
-  @user_profile.save!
-  
   visit root_path
-  page.driver.browser.set_rack_session(user_profile_id: @user_profile.id)
-  visit root_path  
+  click_on "Get Started", match: :first
+
+  fill_in "Your Name", with: name
+  fill_in "Weekly Budget ($)", with: 50
+  select "Microwave", from: "user_profile_available_appliances"
+  select "Vegetarian", from: "user_profile_dietary_preferences"
+  click_button "Save Profile"
+end
+
+When("I select appliances {string} and {string}") do |appliance1, appliance2|
+  select appliance1, from: "user_profile_available_appliances"
+  select appliance2, from: "user_profile_available_appliances"
+end
+
+When("I select dietary preferences {string}") do |preference|
+  select preference, from: "user_profile_dietary_preferences"
 end
 
 Given("I am on the homepage") do
@@ -45,24 +52,18 @@ When('I click on {string}') do |text|
 end
 
 When("I enter my name as {string}") do |name|
-  fill_in "Name", with: name
+  fill_in "Your Name", with: name
 end
 
 When("I set a weekly budget of {int}") do |budget|
-  fill_in "Weekly Budget", with: budget
+  fill_in "Weekly Budget ($)", with: budget
 end
 
-When("I select appliances {string} and {string}") do |appliance1, appliance2|
-  check appliance1
-  check appliance2
-end
-
-When("I select dietary preferences {string}") do |preference|
-  check preference
-end
 
 Then("my profile should be saved") do
+  click_button "Save Profile"
   expect(UserProfile.last).not_to be_nil
+  expect(UserProfile.last.name).to eq("Heidy")
 end
 
 When("I update my weekly budget to {int}") do |budget|
@@ -93,7 +94,7 @@ Given("there are recipes in the database including {string}") do |recipe_name|
     r.meal_type = "breakfast"
     r.prep_time = 10
     r.cost = 5.0
-    r.dietary_tags = ["Vegetarian"]
+    r.dietary_tags = [ "Vegetarian" ]
     r.ingredients = "test"
   end
 end
@@ -139,7 +140,7 @@ Then('I should not see recipes that cost more than ${float}') do |max_cost|
 end
 
 Then('I should see a search option') do
-  expect(page).to have_field("Search")
+  expect(page).to have_field("search")
 end
 
 Then('I should see {string} in the list') do |recipe_name|
