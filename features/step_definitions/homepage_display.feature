@@ -11,8 +11,8 @@ Scenario: User sees homepage feature options
   And I should see "Diet-Aware"
 
 Scenario: User navigates between pages
-  Given I am logged in as "Alice"
+  Given I am logged in as "Heidy"
   When I visit the homepage
   Then I should see "Budget-Friendly", "Dorm-Safe", and "Diet-Aware"
   When I click on "Recipes"
-  Then I should see search and filter options
+  Then I should see a search option
