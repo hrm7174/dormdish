@@ -1,3 +1,4 @@
+
 class RecipesController < ApplicationController
   def index
     @user_profile = UserProfile.find_by(id: session[:user_profile_id])
@@ -18,4 +19,5 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
   end
+
 end

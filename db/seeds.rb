@@ -9,7 +9,8 @@ Recipe.create!([
     cost: 3.5,
     appliances_needed: [ "Microwave" ],
     dietary_tags: [ "Vegetarian" ],
-    ingredients: "Pasta, Cheese, Milk"
+    ingredients: "Pasta, Cheese, Milk",
+    instructions: "Mix pasta and cheese, microwave for 5 mins."
   },
   {
     name: "Overnight Oats",
@@ -18,7 +19,8 @@ Recipe.create!([
     cost: 2.0,
     appliances_needed: [],
     dietary_tags: [ "Vegetarian" ],
-    ingredients: "Oats, Milk, Honey, Banana"
+    ingredients: "Oats, Milk, Honey, Banana",
+    instructions: "Mix everything and refrigerate overnight."
   },
   {
     name: "Chicken Stir Fry",
@@ -27,6 +29,8 @@ Recipe.create!([
     cost: 8.0,
     appliances_needed: [ "Hot Plate" ],
     dietary_tags: [],
-    ingredients: "Chicken, Veggies, Soy Sauce"
+    ingredients: "Chicken, Veggies, Soy Sauce",
+    instructions: "Cook chicken and veggies on hot plate, mix with sauce."
   }
 ])
+
