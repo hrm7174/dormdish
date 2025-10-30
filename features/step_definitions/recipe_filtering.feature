@@ -1,4 +1,4 @@
-# --- user story 2: exploring recipes ---
+# --- user story: exploring recipes ---
 Feature: Recipe search and filtering
   As a college student
   I want to explore recipes and filter by meal type and cost
