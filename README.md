@@ -33,7 +33,18 @@ rails db:migrate
 ```
 rails s -b 0.0.0.0
 ```
-  
+## Testing Instructions 
+
+### Step 1: Run the `rspec` tests
+```
+RAILS_ENV=test bundle exec rails db:prepare
+bundle exec rspec --format documentation
+```
+
+### Step 2: Run the `cucumber` tests
+```
+bundle exec cucumber
+```
 ## Links
   
 Website (Heroku Deployment Link):
