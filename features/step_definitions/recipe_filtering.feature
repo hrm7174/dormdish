@@ -3,7 +3,6 @@ Feature: Filter recipes
   I want to filter recipes by search, meal type, and max cost
   So that I can find recipes that match my preferences
 
-
 Scenario: Filtering recipes by meal type
   Given I am on the recipes page
   When I select "Breakfast" from the meal type dropdown
