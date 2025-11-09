@@ -28,7 +28,7 @@ Recipe.create!([
     prep_time: 20,
     cost: 8.0,
     appliances_needed: [ "Hot Plate" ],
-    dietary_tags: [],
+    dietary_tags: [ "None" ],
     ingredients: "Chicken, Veggies, Soy Sauce",
     instructions: "Cook chicken and veggies on hot plate, mix with sauce."
   }
