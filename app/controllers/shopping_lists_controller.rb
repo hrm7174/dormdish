@@ -1,7 +1,14 @@
 class ShoppingListsController < ApplicationController
+  before_action :check_meal_plan_not_empty, only: [:index]
+
   def show
     @shopping_list = ShoppingList.find(params[:id])
     @items = @shopping_list.respond_to?(:items) ? (@shopping_list.items || []) : []
+  end
+
+  def index
+    # If we get here, meal plan has recipes
+    @shopping_lists = current_profile.shopping_lists
   end
 
   def check_meal_plan
@@ -16,7 +23,12 @@ class ShoppingListsController < ApplicationController
     # rendering the view
   end
 
-  def index
-    @shopping_lists = current_profile.shopping_lists
+  private
+
+  def check_meal_plan_not_empty
+    if current_profile.meal_plans.empty?
+      redirect_to meal_plans_path, 
+                  alert: "Please add at least one meal to your meal plan before generating a shopping list."
+    end
   end
 end
