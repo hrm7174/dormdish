@@ -1,0 +1,26 @@
+<% content_for :page_header do %>
+    <h1 class="h3 mb-0">Cannot Generate Shopping List</h1>
+  <% end %>
+  
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6">
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+          </div>
+          
+          <h2 class="h4 mb-3">Your Meal Plan is Empty</h2>
+          
+          <p class="text-muted mb-4">
+            You need to add at least one meal to your weekly meal plan before we can generate a shopping list.
+          </p>
+  
+          <div class="d-grid gap-2 col-md-8 mx-auto">
+            <%= link_to "Browse Recipes", recipes_path, class: "btn btn-primary btn-pill" %>
+            <%= link_to "Back to Meal Plan", meal_plans_path, class: "btn btn-outline-secondary btn-pill" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
