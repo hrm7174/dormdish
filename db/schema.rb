@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_09_055342) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_09_194703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_09_055342) do
     t.string "meal_type"
     t.string "name"
     t.integer "prep_time"
+    t.boolean "saved"
     t.datetime "updated_at", null: false
   end
 
