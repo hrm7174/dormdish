@@ -1,5 +1,5 @@
 class ShoppingListsController < ApplicationController
-  before_action :check_meal_plan_not_empty, only: [:index]
+  before_action :check_meal_plan_not_empty, only: [ :index ]
 
   def show
     @shopping_list = ShoppingList.find(params[:id])
@@ -27,7 +27,7 @@ class ShoppingListsController < ApplicationController
 
   def check_meal_plan_not_empty
     if current_profile.meal_plans.empty?
-      redirect_to meal_plans_path, 
+      redirect_to meal_plans_path,
                   alert: "Please add at least one meal to your meal plan before generating a shopping list."
     end
   end
