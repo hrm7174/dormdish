@@ -28,9 +28,21 @@
 <% end %>
 
 <div class="d-flex gap-2 mb-3">
-  <%= link_to "Generate Shopping List", shopping_lists_path, class: "btn btn-primary btn-pill" %>
+  <% if @meal_plans.present? %>
+    <%= link_to "Generate Shopping List", shopping_lists_path, class: "btn btn-primary btn-pill" %>
+  <% else %>
+    <button class="btn btn-secondary btn-pill" disabled title="Add meals to your plan first">
+      Generate Shopping List
+    </button>
+  <% end %>
   <%= link_to "Browse Recipes", recipes_path, class: "btn btn-outline-secondary btn-pill" %>
 </div>
+
+<% if @meal_plans.empty? %>
+  <div class="alert alert-info alert-soft mb-3">
+    <strong>Get Started:</strong> Your meal plan is empty. Browse recipes and add meals to enable shopping list generation.
+  </div>
+<% end %>
 
 <div class="table-responsive">
   <table class="table table-bordered table-meal">
