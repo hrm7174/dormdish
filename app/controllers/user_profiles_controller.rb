@@ -1,6 +1,6 @@
 class UserProfilesController < ApplicationController
-  before_action :set_user_profile, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_user_profile, only: [ :show, :edit, :update, :destroy ]
+
   def new
     @user_profile = UserProfile.new
   end
@@ -34,15 +34,15 @@ class UserProfilesController < ApplicationController
   # NEW: Destroy action
   def destroy
     profile_name = @user_profile.name
-    
+
     # Clear session if deleting current profile
     if session[:user_profile_id] == @user_profile.id
       session[:user_profile_id] = nil
     end
-    
+
     # Delete profile (will cascade delete meal_plans, shopping_lists)
     @user_profile.destroy
-    
+
     redirect_to root_path, notice: "Profile '#{profile_name}' and all associated data have been deleted."
   end
 
