@@ -4,7 +4,7 @@ class MealPlansController < ApplicationController
 
   
   DAY_ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-  MEAL_ORDER = ["Breakfast", "Lunch", "Dinner"]
+  MEAL_ORDER = ["Breakfast", "Lunch", "Dinner", "Snack"]
 
   def index
    
@@ -12,14 +12,13 @@ class MealPlansController < ApplicationController
 
     
     @meal_plans = @meal_plans.sort_by do |mp|
-      [
-        DAY_ORDER.index(mp.day),
-        MEAL_ORDER.index(mp.meal_type.capitalize)
-      ]
+      day_index = DAY_ORDER.index(mp.day) || DAY_ORDER.size
+      meal_index = MEAL_ORDER.index(mp.meal_type.capitalize) || MEAL_ORDER.size
+      
+      [day_index, meal_index]
     end
-
+  
     @weekly_total = @meal_plans.sum { |mp| mp.recipe.cost }
-
     @meal_types = ["Breakfast", "Lunch", "Dinner"]
     @days = DAY_ORDER
   end
