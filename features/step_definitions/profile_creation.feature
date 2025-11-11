@@ -1,3 +1,5 @@
+# --- user story: profile creation ---
+
 Feature: User profile management
   As a college student
   I want to create and update my profile
