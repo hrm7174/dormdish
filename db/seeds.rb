@@ -37,8 +37,8 @@ Recipe.create!([
     meal_type: "breakfast",
     prep_time: 4,
     cost: 1.5,
-    appliances_needed: ["Microwave"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Microwave" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Eggs, Salt, Pepper, Milk",
     instructions: "Whisk eggs with milk, microwave 30 seconds at a time, stirring until fluffy."
   },
@@ -57,8 +57,8 @@ Recipe.create!([
     meal_type: "dinner",
     prep_time: 25,
     cost: 4.5,
-    appliances_needed: ["Hot Plate"],
-    dietary_tags: ["Vegan"],
+    appliances_needed: [ "Hot Plate" ],
+    dietary_tags: [ "Vegan" ],
     ingredients: "Lentils, Coconut Milk, Curry Powder, Onions",
     instructions: "Sauté onions, add lentils and coconut milk, simmer until thick and fragrant."
   },
@@ -67,8 +67,8 @@ Recipe.create!([
     meal_type: "breakfast",
     prep_time: 3,
     cost: 1.8,
-    appliances_needed: ["Blender"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Blender" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Banana, Peanut Butter, Milk, Ice",
     instructions: "Combine all ingredients in blender and blend until smooth."
   },
@@ -77,8 +77,8 @@ Recipe.create!([
     meal_type: "dinner",
     prep_time: 18,
     cost: 5.0,
-    appliances_needed: ["Hot Plate"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Hot Plate" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Pasta, Cherry Tomatoes, Basil, Olive Oil, Garlic",
     instructions: "Cook pasta, sauté tomatoes and garlic, toss with basil and olive oil."
   },
@@ -87,8 +87,8 @@ Recipe.create!([
     meal_type: "lunch",
     prep_time: 6,
     cost: 2.2,
-    appliances_needed: ["Microwave"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Microwave" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Tortilla, Shredded Cheese, Peppers",
     instructions: "Place cheese and chopped peppers in tortilla, fold, microwave until melted."
   },
@@ -98,7 +98,7 @@ Recipe.create!([
     prep_time: 10,
     cost: 2.5,
     appliances_needed: [],
-    dietary_tags: ["Vegan"],
+    dietary_tags: [ "Vegan" ],
     ingredients: "Chickpeas, Cucumber, Lemon Juice, Olive Oil, Salt",
     instructions: "Mix chickpeas with diced cucumber, lemon juice, olive oil, and salt."
   },
@@ -107,7 +107,7 @@ Recipe.create!([
     meal_type: "dinner",
     prep_time: 22,
     cost: 15,
-    appliances_needed: ["Hot Plate"],
+    appliances_needed: [ "Hot Plate" ],
     dietary_tags: [],
     ingredients: "Sausage, Bell Peppers, Onions, Olive Oil",
     instructions: "Slice sausage and peppers, cook on skillet until browned and tender."
@@ -118,7 +118,7 @@ Recipe.create!([
     prep_time: 5,
     cost: 10,
     appliances_needed: [],
-    dietary_tags: ["Vegetarian"],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Yogurt, Granola, Berries, Honey",
     instructions: "Layer yogurt, granola, and berries; drizzle with honey."
   },
@@ -127,10 +127,10 @@ Recipe.create!([
     meal_type: "lunch",
     prep_time: 15,
     cost: 20,
-    appliances_needed: ["Hot Plate"],
-    dietary_tags: ["Vegetarian"],
+    appliances_needed: [ "Hot Plate" ],
+    dietary_tags: [ "Vegetarian" ],
     ingredients: "Rice, Butter, Garlic, Salt, Parsley",
     instructions: "Cook rice; sauté garlic in butter; mix together and garnish with parsley."
   }
-  
+
 ])

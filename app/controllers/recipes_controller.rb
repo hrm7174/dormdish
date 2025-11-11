@@ -44,15 +44,14 @@ class RecipesController < ApplicationController
   end
 
   def create
-    
     @recipe = Recipe.new(recipe_params)
 
-    
+
     if params[:recipe][:ingredients].present?
       @recipe.ingredients = params[:recipe][:ingredients].split(/\r?\n/).map(&:strip).reject(&:blank?).join(", ")
     end
 
-    
+
     if params[:recipe][:dietary_tags].present?
       @recipe.dietary_tags = params[:recipe][:dietary_tags].split(",").map(&:strip).reject(&:blank?)
     end

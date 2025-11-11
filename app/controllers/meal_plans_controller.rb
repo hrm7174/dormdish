@@ -2,24 +2,23 @@
 class MealPlansController < ApplicationController
   before_action :set_user_profile
 
-  
-  DAY_ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-  MEAL_ORDER = ["Breakfast", "Lunch", "Dinner", "Snack"]
+
+  DAY_ORDER = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+  MEAL_ORDER = [ "Breakfast", "Lunch", "Dinner", "Snack" ]
 
   def index
-   
     @meal_plans = @user_profile.meal_plans.includes(:recipe)
 
-    
+
     @meal_plans = @meal_plans.sort_by do |mp|
       day_index = DAY_ORDER.index(mp.day) || DAY_ORDER.size
       meal_index = MEAL_ORDER.index(mp.meal_type.capitalize) || MEAL_ORDER.size
-      
-      [day_index, meal_index]
+
+      [ day_index, meal_index ]
     end
-  
+
     @weekly_total = @meal_plans.sum { |mp| mp.recipe.cost }
-    @meal_types = ["Breakfast", "Lunch", "Dinner"]
+    @meal_types = [ "Breakfast", "Lunch", "Dinner" ]
     @days = DAY_ORDER
   end
 
@@ -49,5 +48,3 @@ class MealPlansController < ApplicationController
     @user_profile = UserProfile.first
   end
 end
-
-

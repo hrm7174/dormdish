@@ -10,7 +10,3 @@ class Recipe < ApplicationRecord
     ingredients.split(",").map(&:strip).reject(&:blank?)
   end
 end
-
-
-  
-
