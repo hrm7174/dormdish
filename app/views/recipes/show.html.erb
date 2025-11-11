@@ -23,7 +23,9 @@
       <div class="card-body">
         <h5 class="card-title">Ingredients</h5>
         <ul class="mb-0">
-          <% @recipe.ingredients_list.each { |i| %><li><%= i %></li><% } %>
+          <% @recipe.ingredients_list.each do |ingredient| %>
+            <li><%= ingredient %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -36,6 +38,41 @@
         </div>
       </div>
     <% end %>
+
+
+    <div class="card" style="margin-top: 1rem; margin-bottom: 1rem;">
+      <div class="card-body">
+        <h5 class="card-title">Add to Meal Plan</h5>
+
+        <%= form_with url: meal_plans_path, method: :post, local: true do |f| %>
+
+          <%= hidden_field_tag :recipe_id, @recipe.id %>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Day</label>
+              <%= select_tag :day,
+                    options_for_select(["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]),
+                    class: "form-select" %>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Meal Type</label>
+              <%= select_tag :meal_type,
+                    options_for_select(["Breakfast","Lunch","Dinner", "Snack"]),
+                    class: "form-select" %>
+            </div>
+
+          </div> <!-- END row -->
+
+          <div class="mt-3">
+            <%= f.submit "Add to Meal Plan", class: "btn btn-primary btn-pill" %>
+          </div>
+
+        <% end %>
+        
+      </div>
+    </div>
 
     <div class="mt-3">
       <%= link_to "Back to Recipes", recipes_path, class: "btn btn-outline-secondary btn-pill" %>

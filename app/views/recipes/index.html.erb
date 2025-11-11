@@ -1,6 +1,11 @@
+
 <% content_for :page_header do %>
   <h1 class="h3 mb-0">Browse Recipes</h1>
 <% end %>
+
+<div class="mb-3">
+  <%= link_to "Add A Recipe", new_recipe_path, class: "btn btn-primary btn-pill" %>
+</div>
 
 <div class="card mb-4">
   <div class="card-body">
