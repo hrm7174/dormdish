@@ -22,6 +22,48 @@ RSpec.describe UserProfile, type: :model do
     expect(described_class.new(name: "Heidy", weekly_budget: 25)).to be_valid
   end
 
+  # validation steps
+  describe "appliance and dietary preference validations" do
+    it "is invalid when no appliances are selected" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [])
+      expect(profile).to be_invalid
+      expect(profile.errors[:appliances]).to include("must select at least one appliance")
+    end
+
+    it "is invalid when appliances only contains empty strings" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [ "" ])
+      expect(profile).to be_invalid
+      expect(profile.errors[:appliances]).to include("must select at least one appliance")
+    end
+
+    it "is valid when appliances are selected" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [ "Microwave" ])
+      expect(profile).to be_valid
+    end
+
+    it "is invalid when no dietary preferences are selected" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [])
+      expect(profile).to be_invalid
+      expect(profile.errors[:dietary_preferences]).to include("must select at least one dietary preference")
+    end
+
+    it "is invalid when dietary preferences only contains empty strings" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "" ])
+      expect(profile).to be_invalid
+      expect(profile.errors[:dietary_preferences]).to include("must select at least one dietary preference")
+    end
+
+    it "is valid when dietary preferences are selected" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "Vegetarian" ])
+      expect(profile).to be_valid
+    end
+
+    it "is valid when 'None' is selected for dietary preferences" do
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "None" ])
+      expect(profile).to be_valid
+    end
+  end
+
   # === Associations ===
   it { is_expected.to have_many(:meal_plans).dependent(:destroy) }
   it { is_expected.to have_many(:recipes).through(:meal_plans) }
