@@ -5127,3 +5127,429 @@ Processing by RecipesController#index as HTML
 Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.3ms (3 queries, 0 cached) | GC: 0.0ms)
   [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."meal_type" = $1 AND (cost <= $2)[0m  [["meal_type", "dinner"], [nil, 5.0]]
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35m (103.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dormdish_test"[0m
+  [1m[35m (130.4ms)[0m  [1m[35mCREATE DATABASE "dormdish_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (17.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "meal_plans" CASCADE[0m
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE TABLE "meal_plans" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "day" character varying, "meal_type" character varying, "recipe_id" bigint NOT NULL, "updated_at" timestamp(6) NOT NULL, "user_profile_id" bigint NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_recipe_id" ON "meal_plans" ("recipe_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_user_profile_id" ON "meal_plans" ("user_profile_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "recipes" CASCADE[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "recipes" ("id" bigserial primary key, "appliances_needed" text[] DEFAULT '{}', "cost" float, "created_at" timestamp(6) NOT NULL, "dietary_tags" text[] DEFAULT '{}', "ingredients" text, "ingredients_list" text, "instructions" text, "meal_type" character varying, "name" character varying, "prep_time" integer, "saved" boolean, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "shopping_lists" CASCADE[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "shopping_lists" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "items" json DEFAULT '[]', "meal_plan_id" bigint, "updated_at" timestamp(6) NOT NULL, "user_profile_id" bigint NOT NULL, "week_start" date)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE INDEX "index_shopping_lists_on_meal_plan_id" ON "shopping_lists" ("meal_plan_id")[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_shopping_lists_on_user_profile_id" ON "shopping_lists" ("user_profile_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_profiles" CASCADE[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "user_profiles" ("id" bigserial primary key, "appliances" text[] DEFAULT '{}', "created_at" timestamp(6) NOT NULL, "dietary_preferences" text[] DEFAULT '{}', "name" character varying, "updated_at" timestamp(6) NOT NULL, "weekly_budget" float)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_757efcc95e"
+FOREIGN KEY ("recipe_id")
+  REFERENCES "recipes" ("id")
+[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_ff510d63d4"
+FOREIGN KEY ("user_profile_id")
+  REFERENCES "user_profiles" ("id")
+[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "shopping_lists" ADD CONSTRAINT "fk_rails_940f067c52"
+FOREIGN KEY ("meal_plan_id")
+  REFERENCES "meal_plans" ("id")
+[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "shopping_lists" ADD CONSTRAINT "fk_rails_6605f13ac6"
+FOREIGN KEY ("user_profile_id")
+  REFERENCES "user_profiles" ("id")
+[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20251110202116)[0m
+  [1m[35m (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20251109194703),
+(20251109055342),
+(20251030024907),
+(20251030024253),
+(20241022000003),
+(20241022000002),
+(20241022000001);[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-11-11 17:24:24.509451', '2025-11-11 17:24:24.509455') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '15f216cf20a5af41c4dac5dd41010388162ca7d9', '2025-11-11 17:24:24.511713', '2025-11-11 17:24:24.511714') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35m (35.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dormdish_test"[0m
+  [1m[35m (41.0ms)[0m  [1m[35mCREATE DATABASE "dormdish_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (8.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "meal_plans" CASCADE[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "meal_plans" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "day" character varying, "meal_type" character varying, "recipe_id" bigint NOT NULL, "updated_at" timestamp(6) NOT NULL, "user_profile_id" bigint NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_recipe_id" ON "meal_plans" ("recipe_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_meal_plans_on_user_profile_id" ON "meal_plans" ("user_profile_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "recipes" CASCADE[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "recipes" ("id" bigserial primary key, "appliances_needed" text[] DEFAULT '{}', "cost" float, "created_at" timestamp(6) NOT NULL, "dietary_tags" text[] DEFAULT '{}', "ingredients" text, "ingredients_list" text, "instructions" text, "meal_type" character varying, "name" character varying, "prep_time" integer, "saved" boolean, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "shopping_lists" CASCADE[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "shopping_lists" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "items" json DEFAULT '[]', "meal_plan_id" bigint, "updated_at" timestamp(6) NOT NULL, "user_profile_id" bigint NOT NULL, "week_start" date)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE INDEX "index_shopping_lists_on_meal_plan_id" ON "shopping_lists" ("meal_plan_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_shopping_lists_on_user_profile_id" ON "shopping_lists" ("user_profile_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_profiles" CASCADE[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "user_profiles" ("id" bigserial primary key, "appliances" text[] DEFAULT '{}', "created_at" timestamp(6) NOT NULL, "dietary_preferences" text[] DEFAULT '{}', "name" character varying, "updated_at" timestamp(6) NOT NULL, "weekly_budget" float)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_757efcc95e"
+FOREIGN KEY ("recipe_id")
+  REFERENCES "recipes" ("id")
+[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "meal_plans" ADD CONSTRAINT "fk_rails_ff510d63d4"
+FOREIGN KEY ("user_profile_id")
+  REFERENCES "user_profiles" ("id")
+[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "shopping_lists" ADD CONSTRAINT "fk_rails_940f067c52"
+FOREIGN KEY ("meal_plan_id")
+  REFERENCES "meal_plans" ("id")
+[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "shopping_lists" ADD CONSTRAINT "fk_rails_6605f13ac6"
+FOREIGN KEY ("user_profile_id")
+  REFERENCES "user_profiles" ("id")
+[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20251110202116)[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20251109194703),
+(20251109055342),
+(20251030024907),
+(20251030024253),
+(20241022000003),
+(20241022000002),
+(20241022000001);[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-11-11 17:24:25.568797', '2025-11-11 17:24:25.568799') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '15f216cf20a5af41c4dac5dd41010388162ca7d9', '2025-11-11 17:24:25.569791', '2025-11-11 17:24:25.569791') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 12:24:25 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (1.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 331.3ms | GC: 35.2ms)
+Completed 200 OK in 443ms (Views: 320.3ms | ActiveRecord: 12.8ms (1 query, 0 cached) | GC: 49.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 1.9ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.5ms | GC: 0.0ms)
+Completed 200 OK in 8ms (Views: 2.5ms | ActiveRecord: 3.7ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.0ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.2ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 2.8ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.3ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 1.8ms | ActiveRecord: 2.3ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=breakfast&max_cost=&commit=Filter" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "breakfast", "max_cost" => "", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."meal_type" = $1[0m  [["meal_type", "breakfast"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.0ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.0ms | ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=&max_cost=5&commit=Filter" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "", "max_cost" => "5", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.1ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.2ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE (cost <= $1)[0m  [[nil, 5.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."name" = $1 LIMIT $2[0m  [["name", "Overnight Oats"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (1.2ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "ingredients_list", "instructions", "meal_type", "name", "prep_time", "saved", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 5.0], ["created_at", "2025-11-11 17:24:26.119771"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "test"], ["ingredients_list", nil], ["instructions", nil], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 10], ["saved", nil], ["updated_at", "2025-11-11 17:24:26.119771"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/recipes?search=Overnight+Oats&meal_type=breakfast&max_cost=&commit=Filter" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "Overnight Oats", "meal_type" => "breakfast", "max_cost" => "", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 2.0ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.5ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.7ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=dinner&max_cost=5&commit=Filter" for 127.0.0.1 at 2025-11-11 12:24:26 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "dinner", "max_cost" => "5", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.2ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."meal_type" = $1 AND (cost <= $2)[0m  [["meal_type", "dinner"], [nil, 5.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (4.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (1.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 308.5ms | GC: 33.3ms)
+Completed 200 OK in 406ms (Views: 302.6ms | ActiveRecord: 7.5ms (1 query, 0 cached) | GC: 46.4ms)
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 2.1ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.3ms | GC: 0.0ms)
+Completed 200 OK in 7ms (Views: 3.5ms | ActiveRecord: 1.9ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by PagesController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering pages/home.html.erb within layouts/application
+  Rendered pages/home.html.erb within layouts/application (Duration: 0.0ms | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.4ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/user_profiles/new" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by UserProfilesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering user_profiles/new.html.erb within layouts/application
+  Rendered user_profiles/new.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 2.7ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.2ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 1.9ms | ActiveRecord: 2.0ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=breakfast&max_cost=&commit=Filter" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "breakfast", "max_cost" => "", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."meal_type" = $1[0m  [["meal_type", "breakfast"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.7ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=&max_cost=5&commit=Filter" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "", "max_cost" => "5", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.2ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE (cost <= $1)[0m  [[nil, 5.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.4ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."name" = $1 LIMIT $2[0m  [["name", "Overnight Oats"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mRecipe Create (4.0ms)[0m  [1m[32mINSERT INTO "recipes" ("appliances_needed", "cost", "created_at", "dietary_tags", "ingredients", "ingredients_list", "instructions", "meal_type", "name", "prep_time", "saved", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["appliances_needed", "{}"], ["cost", 5.0], ["created_at", "2025-11-11 21:01:05.721981"], ["dietary_tags", "{Vegetarian}"], ["ingredients", "test"], ["ingredients_list", nil], ["instructions", nil], ["meal_type", "breakfast"], ["name", "Overnight Oats"], ["prep_time", 10], ["saved", nil], ["updated_at", "2025-11-11 21:01:05.721981"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/recipes?search=Overnight+Oats&meal_type=breakfast&max_cost=&commit=Filter" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "Overnight Oats", "meal_type" => "breakfast", "max_cost" => "", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 2.0ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.5ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.3ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/recipes" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserProfile Load (0.3ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "recipes" LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.7ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.6ms (3 queries, 0 cached) | GC: 0.0ms)
+Started GET "/recipes?search=&meal_type=dinner&max_cost=5&commit=Filter" for 127.0.0.1 at 2025-11-11 16:01:05 -0500
+Processing by RecipesController#index as HTML
+  Parameters: {"search" => "", "meal_type" => "dinner", "max_cost" => "5", "commit" => "Filter"}
+  [1m[36mUserProfile Load (0.2ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes"[0m
+  Rendering layout layouts/application.html.erb
+  Rendering recipes/index.html.erb within layouts/application
+  Rendered recipes/index.html.erb within layouts/application (Duration: 0.2ms | GC: 0.0ms)
+  [1m[36mCACHE UserProfile Load (0.0ms)[0m  [1m[34mSELECT "user_profiles".* FROM "user_profiles" WHERE "user_profiles"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.3ms (3 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT "recipes".* FROM "recipes" WHERE "recipes"."meal_type" = $1 AND (cost <= $2)[0m  [["meal_type", "dinner"], [nil, 5.0]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m

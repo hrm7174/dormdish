@@ -13,4 +13,46 @@
   <div class="alert alert-info alert-soft mb-3">
     <strong>Get Started:</strong> Your meal plan is empty. Browse recipes and add meals to enable shopping list generation.
   </div>
+<% else %>
+
+  <div class="alert alert-secondary mb-3">
+    <strong>Total Weekly Cost:</strong>
+    $<%= number_with_precision(@weekly_total, precision: 2) %>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">My Weekly Meal Plan</h5>
+
+      <% @meal_plans.group_by(&:day).each do |day, meals| %>
+        <h6 class="mt-3"><%= day %></h6>
+
+        <% meals.sort_by { |m| ["Breakfast", "Lunch", "Dinner"].index(m.meal_type.capitalize) }.each do |mp| %>
+          <div class="card mb-2">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+              <!-- Clickable area -->
+              <%= link_to recipe_path(mp.recipe), class: "w-100 text-decoration-none text-dark d-flex justify-content-between align-items-center" do %>
+                <div>
+                  <strong><%= mp.meal_type.capitalize %>:</strong> <%= mp.recipe.name %>
+                </div>
+                <div>
+                  $<%= number_with_precision(mp.recipe.cost, precision: 2) %>
+                </div>
+              <% end %>
+
+        
+              <div class="ms-2">
+                <%= button_to "Remove",
+                      meal_plan_path(mp),
+                      method: :delete,
+                      data: { confirm: "Remove this meal?" },
+                      class: "btn btn-outline-danger btn-sm" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
