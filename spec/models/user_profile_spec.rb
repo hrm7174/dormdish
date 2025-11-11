@@ -31,13 +31,13 @@ RSpec.describe UserProfile, type: :model do
     end
 
     it "is invalid when appliances only contains empty strings" do
-      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [""])
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [ "" ])
       expect(profile).to be_invalid
       expect(profile.errors[:appliances]).to include("must select at least one appliance")
     end
 
     it "is valid when appliances are selected" do
-      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: ["Microwave"])
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, appliances: [ "Microwave" ])
       expect(profile).to be_valid
     end
 
@@ -48,18 +48,18 @@ RSpec.describe UserProfile, type: :model do
     end
 
     it "is invalid when dietary preferences only contains empty strings" do
-      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [""])
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "" ])
       expect(profile).to be_invalid
       expect(profile.errors[:dietary_preferences]).to include("must select at least one dietary preference")
     end
 
     it "is valid when dietary preferences are selected" do
-      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: ["Vegetarian"])
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "Vegetarian" ])
       expect(profile).to be_valid
     end
 
     it "is valid when 'None' is selected for dietary preferences" do
-      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: ["None"])
+      profile = UserProfile.new(name: "Heidy", weekly_budget: 25, dietary_preferences: [ "None" ])
       expect(profile).to be_valid
     end
   end
