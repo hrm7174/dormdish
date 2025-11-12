@@ -71,4 +71,53 @@ RSpec.describe "UserProfiles", type: :request do
       # No follow_redirect! to avoid layout helper dependencies
     end
   end
+
+  ## PROFILE DELETION
+  describe "DELETE /user_profiles/:id" do
+    it "deletes the profile and redirects to root with notice" do
+      profile = UserProfile.create!(name: "Test User", weekly_budget: 30)
+
+      delete user_profile_path(profile)
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to match(/Profile 'Test User' and all associated data have been deleted/)
+      expect(UserProfile.exists?(profile.id)).to be false
+    end
+
+    it "clears session when deleting the current profile" do
+      profile = UserProfile.create!(name: "Test User", weekly_budget: 30)
+
+      post user_profiles_path, params: {
+        user_profile: {
+          name: "Test User",
+          weekly_budget: 30,
+          appliances: [ "Microwave" ],
+          dietary_preferences: [ "Vegetarian" ]
+        }
+      }
+      expect(session[:user_profile_id]).to be_present
+
+      delete user_profile_path(profile)
+
+      expect(session[:user_profile_id]).to be_nil
+    end
+
+    it "redirects to root with alert when profile not found" do
+      delete user_profile_path(99999) # Non-existent ID
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("Profile not found.")
+    end
+
+    it "destroys associated meal plans and shopping lists" do
+      profile = UserProfile.create!(name: "Test User", weekly_budget: 30)
+      meal_plan = profile.meal_plans.create!(name: "Test Plan")
+      shopping_list = profile.shopping_lists.create!(name: "Test List")
+
+      expect do
+        delete user_profile_path(profile)
+      end.to change(MealPlan, :count).by(-1)
+       .and change(ShoppingList, :count).by(-1)
+    end
+  end
 end

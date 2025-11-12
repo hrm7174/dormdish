@@ -1,3 +1,5 @@
+# --- user story: recipe filtering ---
+
 Feature: Filter recipes
   As a user
   I want to filter recipes by search, meal type, and max cost

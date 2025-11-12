@@ -5,9 +5,23 @@ class RecipesController < ApplicationController
     @recipes = Recipe.all
 
     if @user_profile
-      @recipes = @recipes.select do |r|
-        (r.appliances_needed - @user_profile.appliances).empty? &&
-          (r.dietary_tags & @user_profile.dietary_preferences).any?
+      user_appliances = @user_profile.appliances.reject(&:blank?)
+      user_dietary_preferences = @user_profile.dietary_preferences.reject(&:blank?)
+
+      @recipes = @recipes.select do |recipe|
+        appliances_compatible = if user_appliances.include?("None")
+          recipe.appliances_needed.empty?
+        else
+          (recipe.appliances_needed - user_appliances).empty?
+        end
+
+        dietary_compatible = if user_dietary_preferences.include?("None")
+          true
+        else
+          recipe.dietary_tags.empty? || (recipe.dietary_tags & user_dietary_preferences).any?
+        end
+
+        appliances_compatible && dietary_compatible
       end
     end
 
@@ -30,15 +44,14 @@ class RecipesController < ApplicationController
   end
 
   def create
-    
     @recipe = Recipe.new(recipe_params)
 
-    
+
     if params[:recipe][:ingredients].present?
       @recipe.ingredients = params[:recipe][:ingredients].split(/\r?\n/).map(&:strip).reject(&:blank?).join(", ")
     end
 
-    
+
     if params[:recipe][:dietary_tags].present?
       @recipe.dietary_tags = params[:recipe][:dietary_tags].split(",").map(&:strip).reject(&:blank?)
     end

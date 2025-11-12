@@ -9,14 +9,14 @@ Given("I am logged in as {string}") do |name|
 
   fill_in "Your Name", with: name
   fill_in "Weekly Budget ($)", with: 50
-  select "Microwave", from: "user_profile_available_appliances"
+  select "Microwave", from: "user_profile_appliances"
   select "Vegetarian", from: "user_profile_dietary_preferences"
   click_button "Save Profile"
 end
 
 When("I select appliances {string} and {string}") do |appliance1, appliance2|
-  select appliance1, from: "user_profile_available_appliances"
-  select appliance2, from: "user_profile_available_appliances"
+  select appliance1, from: "user_profile_appliances"
+  select appliance2, from: "user_profile_appliances"
 end
 
 When("I select dietary preferences {string}") do |preference|
@@ -151,7 +151,7 @@ Then('I should not see recipes that do not match both criteria') do
   visible_recipes = Recipe.all.select do |recipe|
     page.has_content?(recipe.name)
   end
-  #expect(visible_recipes).to all(satisfy { |r| r.name.include?("Overnight Oats") || r.meal_type == "Breakfast" })
+  # expect(visible_recipes).to all(satisfy { |r| r.name.include?("Overnight Oats") || r.meal_type == "Breakfast" })
 end
 
 Then('I should see only dinner recipes costing ${float} or less') do |max_cost|
