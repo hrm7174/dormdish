@@ -159,3 +159,56 @@ Then('I should see only dinner recipes costing ${float} or less') do |max_cost|
     expect(page).to have_content(recipe.name)
   end
 end
+
+
+
+Given('I am on the new profile page') do
+  visit new_user_profile_path
+end
+
+Given('I am on the new profile page with validation errors') do
+  visit new_user_profile_path
+  click_button "Save Profile" # This will trigger validation errors
+end
+
+When('I click {string} without entering any information') do |button_text|
+  click_button button_text
+end
+
+Then('I should see validation errors for all required fields') do
+  expect(page).to have_content("error") # Looks for "error" or "errors" in the message
+end
+
+Then('I should see {string} must be greater than {int}') do |field, value|
+  expect(page).to have_content("#{field} must be greater than #{value}")
+end
+
+When('I fill in all required fields with valid data') do
+  fill_in "Your Name", with: "Valid User"
+  fill_in "Weekly Budget ($)", with: 30
+  select "Microwave", from: "Available Appliances"
+  select "Vegetarian", from: "Dietary Preferences"
+end
+
+Then('I should not see any error messages') do
+  expect(page).not_to have_css('.alert-danger')
+  expect(page).not_to have_content("can't be blank")
+  expect(page).not_to have_content("Must select")
+end
+
+When('I select appliances {string}') do |appliance|
+  select appliance, from: "user_profile_appliances"
+end
+
+When('I click {string}') do |button_text|
+  click_button button_text
+end
+
+Then('I should be redirected to the recipes page') do
+  expect(current_path).to eq(recipes_path)
+end
+
+Then("my profile should have been saved") do
+  expect(UserProfile.last).not_to be_nil
+  expect(UserProfile.last.name).to be_present
+end
