@@ -8,7 +8,9 @@ class ShoppingListsController < ApplicationController
     @shopping_list = current_profile.shopping_lists.last || current_profile.shopping_lists.create
 
   
-    @shopping_list.generate_items if @shopping_list.items.nil? || @shopping_list.items.empty?
+   if params[:refresh].present? || @shopping_list.items.blank?
+    @shopping_list.generate_items
+   end
 
  
     @recipes = current_profile.meal_plans.includes(:recipe).map(&:recipe).uniq
@@ -36,8 +38,8 @@ class ShoppingListsController < ApplicationController
     ingredient_name = params[:ingredient_name]
 
     if @shopping_list.items.present?
-      @shopping_list.items.reject! { |i| i["name"] == ingredient_name }
-      @shopping_list.save
+      @shopping_list.items = @shopping_list.items.reject { |i| i["name"] == ingredient_name }
+      @shopping_list.save!
     end
 
     redirect_to shopping_lists_path, notice: "#{ingredient_name} removed from shopping list."

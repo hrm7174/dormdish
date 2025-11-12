@@ -3,13 +3,13 @@ class ShoppingList < ApplicationRecord
   belongs_to :user_profile
   belongs_to :meal_plan, optional: true
 
-  # Generate items only if not already present
-  def generate_items
-    return if items.present?
 
+
+    def generate_items
     ingredient_map = {}
 
-    recipes = user_profile.meal_plans.includes(:recipe).map(&:recipe)
+   
+    recipes = user_profile.meal_plans.includes(:recipe).map(&:recipe).compact
 
     recipes.each do |recipe|
       next if recipe.ingredients.blank?
@@ -20,9 +20,11 @@ class ShoppingList < ApplicationRecord
       end
     end
 
+
     self.items = ingredient_map.values
-    save
+    save!
   end
+
 
   def items_for_recipe(recipe_id)
     recipe = Recipe.find_by(id: recipe_id)
