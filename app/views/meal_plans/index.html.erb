@@ -41,11 +41,13 @@
 
                 <div class="ms-2">
                   <%= button_to "Remove",
-                        meal_plan_path(mp),
-                        method: :delete,
-                        data: { confirm: "Remove this meal?" },
-                        class: "btn btn-outline-danger btn-sm" %>
+                  meal_plan_path(mp),
+                  method: :delete,
+                  class: "btn btn-outline-danger btn-sm",
+                  onclick: "return confirm('⚠️ Are you sure you want to remove: #{mp.recipe.name}?');" %>
                 </div>
+
+
               </div>
             </div>
           </div>

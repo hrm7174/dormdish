@@ -48,8 +48,9 @@
           <%= button_to "Remove",
             destroy_item_shopping_list_path(@shopping_list, ingredient_name: item["name"]),
             method: :delete,
-            data: { confirm: "Remove #{item["name"]} from shopping list?" },
-            class: "btn btn-sm btn-outline-danger" %>
+            class: "btn btn-sm btn-outline-danger",
+            onclick: "return confirm('Are you sure you want to remove #{item["name"]} from your shopping list?');" %>
+
 
           </li>
         <% end %>
