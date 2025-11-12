@@ -20,7 +20,7 @@ Scenario: User tries to create profile with invalid budget
   And I set a weekly budget of 0
   And I select appliances "Microwave"
   And I select dietary preferences "Vegetarian"
-  And I click "Save Profile"
+  And I click the "Save Profile" button
   Then I should see "Weekly budget must be greater than 0"
 
 Scenario: User tries to create profile with negative budget
@@ -29,7 +29,7 @@ Scenario: User tries to create profile with negative budget
   And I set a weekly budget of -5
   And I select appliances "Microwave"
   And I select dietary preferences "Vegetarian"
-  And I click "Save Profile"
+  And I click the "Save Profile" button
   Then I should see "Weekly budget must be greater than 0"
 
 Scenario: User fixes validation errors and successfully creates profile
@@ -38,6 +38,6 @@ Scenario: User fixes validation errors and successfully creates profile
   And I set a weekly budget of 25
   And I select appliances "Mini Fridge"
   And I select dietary preferences "None"
-  And I click "Save Profile"
+  And I click the "Save Profile" button
   Then my profile should have been saved
   And I should be redirected to the recipes page
