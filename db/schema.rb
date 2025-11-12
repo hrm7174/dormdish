@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_10_202116) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_12_001952) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_10_202116) do
     t.integer "prep_time"
     t.boolean "saved"
     t.datetime "updated_at", null: false
+    t.integer "user_profile_id"
   end
 
   create_table "shopping_lists", force: :cascade do |t|

@@ -1,3 +1,4 @@
+
 <% content_for :page_header do %>
   <h1 class="h3 mb-0">Shopping List</h1>
 <% end %>
@@ -7,13 +8,19 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Ingredients Needed</h5>
+
         <% if @items.any? %>
           <ul class="list-group">
             <% @items.each do |item| %>
               <li class="list-group-item">
                 <div class="form-check">
-                  <input class="form-check-input list-check" type="checkbox" id="item-<%= item.parameterize %>">
-                  <label class="form-check-label" for="item-<%= item.parameterize %>"><%= item %></label>
+                  <input class="form-check-input list-check" type="checkbox" id="item-<%= item[:name].parameterize %>">
+                  <label class="form-check-label" for="item-<%= item[:name].parameterize %>">
+                    <%= item[:name] %>
+                    <% if item[:recipes].present? %>
+                      <small class="text-muted">used in: <%= item[:recipes].join(", ") %></small>
+                    <% end %>
+                  </label>
                 </div>
               </li>
             <% end %>
@@ -31,7 +38,7 @@
         <h5 class="card-title">Summary</h5>
         <p class="mb-1"><strong>Total Items:</strong> <span id="total-items"><%= @items.count %></span></p>
         <p class="mb-3"><strong>Purchased:</strong> <span id="checked-count">0</span></p>
-        <p class="mb-3"><strong>Estimated total:</strong> $<%= number_with_precision(@total_cost, precision: 2) %></p>
+        <p class="mb-3"><strong>Estimated total:</strong> $<%= number_with_precision(@total_cost || 0, precision: 2) %></p>
         <%= link_to "Back to Meal Plan", meal_plans_path, class: "btn btn-primary btn-pill w-100" %>
       </div>
     </div>
@@ -50,3 +57,4 @@
     const event = new Event("turbo:load"); document.dispatchEvent(event);
   });
 </script>
+
