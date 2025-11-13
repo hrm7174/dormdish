@@ -36,25 +36,30 @@
       <ul class="list-group">
         <% @items.each do |item| %>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong><%= item["name"] %></strong>
-            <% if item["recipes"].present? %>
-              <small class="text-muted">
-                used in: <%= item["recipes"].join(", ") %>
-              </small>
-            <% end %>
-          </div>
+            <div>
+              <strong><%= item["name"] %></strong>
+              <% if item["recipes"].present? %>
+                <small class="text-muted">
+                  used in: <%= item["recipes"].join(", ") %>
+                </small>
+              <% end %>
+            </div>
 
-          <%= button_to "Remove",
-            destroy_item_shopping_list_path(@shopping_list, ingredient_name: item["name"]),
-            method: :delete,
-            class: "btn btn-sm btn-outline-danger",
-            onclick: "return confirm('Are you sure you want to remove #{item["name"]} from your shopping list?');" %>
+            <div class="d-flex gap-2">
+              <%= button_to "Remove",
+                destroy_item_shopping_list_path(@shopping_list, ingredient_name: item["name"]),
+                method: :delete,
+                class: "btn btn-sm btn-outline-danger",
+                onclick: "return confirm('Are you sure you want to remove #{item["name"]} from your shopping list?');" %>
 
-
+            <%= link_to "Purchase",
+              "https://hmartdelivery.com/search?type=product&q=#{CGI.escape(item["name"])}*",
+              target: "_blank",
+              rel: "noopener",
+              class: "btn btn-sm btn-outline-success" %>
+            </div>
           </li>
         <% end %>
-        
       </ul>
     </div>
   </div>
