@@ -6,8 +6,8 @@ RSpec.describe ShoppingListsController, type: :controller do
     UserProfile.create!(
       name: "Alex",
       weekly_budget: 30,
-      appliances: ["Microwave"],
-      dietary_preferences: ["None"]
+      appliances: [ "Microwave" ],
+      dietary_preferences: [ "None" ]
     )
   end
 
@@ -38,8 +38,8 @@ RSpec.describe ShoppingListsController, type: :controller do
     it "calls generate_items and filters items for the selected recipe" do
       shopping_list = profile.shopping_lists.create!(
         items: [
-          { "name" => "Pasta", "recipes" => ["Dorm Mac"] },
-          { "name" => "Sauce", "recipes" => ["Other"] }
+          { "name" => "Pasta", "recipes" => [ "Dorm Mac" ] },
+          { "name" => "Sauce", "recipes" => [ "Other" ] }
         ]
       )
 
@@ -52,14 +52,14 @@ RSpec.describe ShoppingListsController, type: :controller do
       expect(assigns(:shopping_list)).to eq(shopping_list)
       expect(assigns(:selected_recipe)).to eq(recipe)
       # items_for_recipe branch should have run
-      expect(assigns(:items).map { |i| i["name"] }).to eq(["Pasta"])
+      expect(assigns(:items).map { |i| i["name"] }).to eq([ "Pasta" ])
     end
   end
 
   describe "GET #show" do
     it "assigns @shopping_list and @items" do
       shopping_list = profile.shopping_lists.create!(
-        items: [{ "name" => "Milk" }]
+        items: [ { "name" => "Milk" } ]
       )
 
       get :show, params: { id: shopping_list.id }
@@ -84,7 +84,7 @@ RSpec.describe ShoppingListsController, type: :controller do
       expect(response).to redirect_to(shopping_lists_path)
       expect(flash[:notice]).to include("Milk removed from shopping list")
       shopping_list.reload
-      expect(shopping_list.items.map { |i| i["name"] }).to eq(["Eggs"])
+      expect(shopping_list.items.map { |i| i["name"] }).to eq([ "Eggs" ])
     end
   end
 

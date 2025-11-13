@@ -28,20 +28,20 @@ RSpec.describe ShoppingList, type: :model do
     it "returns items linked to the given recipe name" do
       list = described_class.new(
         items: [
-          { "name" => "Pasta", "recipes" => ["Dorm Mac"] },
-          { "name" => "Sauce", "recipes" => ["Other Recipe"] }
+          { "name" => "Pasta", "recipes" => [ "Dorm Mac" ] },
+          { "name" => "Sauce", "recipes" => [ "Other Recipe" ] }
         ]
       )
 
       result = list.items_for_recipe(recipe.id)
 
-      expect(result.map { |i| i["name"] }).to eq(["Pasta"])
+      expect(result.map { |i| i["name"] }).to eq([ "Pasta" ])
     end
 
     it "returns an empty array when recipe is not found" do
       list = described_class.new(
         items: [
-          { "name" => "Pasta", "recipes" => ["Dorm Mac"] }
+          { "name" => "Pasta", "recipes" => [ "Dorm Mac" ] }
         ]
       )
 
@@ -63,7 +63,7 @@ RSpec.describe ShoppingList, type: :model do
 
       list.remove_ingredient("Milk")
 
-      expect(list.items.map { |i| i["name"] }).to eq(["Eggs"])
+      expect(list.items.map { |i| i["name"] }).to eq([ "Eggs" ])
       expect(list).to have_received(:save)
     end
   end

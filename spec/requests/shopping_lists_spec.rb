@@ -6,8 +6,8 @@ RSpec.describe "ShoppingLists", type: :request do
     UserProfile.create!(
       name: "Alex",
       weekly_budget: 30,
-      appliances: ["Microwave"],
-      dietary_preferences: ["None"]
+      appliances: [ "Microwave" ],
+      dietary_preferences: [ "None" ]
     )
   end
 
@@ -38,8 +38,8 @@ RSpec.describe "ShoppingLists", type: :request do
     it "renders the index successfully when meal plans exist" do
       profile.shopping_lists.create!(
         items: [
-          { "name" => "Pasta", "recipes" => [recipe.name], "purchased" => false },
-          { "name" => "Cheese", "recipes" => [recipe.name], "purchased" => true }
+          { "name" => "Pasta", "recipes" => [ recipe.name ], "purchased" => false },
+          { "name" => "Cheese", "recipes" => [ recipe.name ], "purchased" => true }
         ]
       )
 
@@ -55,14 +55,14 @@ RSpec.describe "ShoppingLists", type: :request do
     it "renders the show page successfully" do
       list = profile.shopping_lists.create!(
         items: [
-          { "name" => "Milk", "recipes" => [recipe.name] }
+          { "name" => "Milk", "recipes" => [ recipe.name ] }
         ]
       )
 
       # Make sure the view sees hashes with :name so item[:name].parameterize works
       allow_any_instance_of(ShoppingList)
         .to receive(:items)
-        .and_return([{ name: "Milk", recipes: [recipe.name] }])
+        .and_return([ { name: "Milk", recipes: [ recipe.name ] } ])
 
       get "/shopping_lists/#{list.id}"
 
@@ -82,8 +82,8 @@ RSpec.describe "ShoppingLists", type: :request do
       empty_profile = UserProfile.create!(
         name: "Sam",
         weekly_budget: 20,
-        appliances: ["Microwave"],
-        dietary_preferences: ["None"]
+        appliances: [ "Microwave" ],
+        dietary_preferences: [ "None" ]
       )
 
       allow_any_instance_of(ApplicationController)
@@ -104,8 +104,8 @@ RSpec.describe "ShoppingLists", type: :request do
       empty_profile = UserProfile.create!(
         name: "Jordan",
         weekly_budget: 25,
-        appliances: ["Microwave"],
-        dietary_preferences: ["None"]
+        appliances: [ "Microwave" ],
+        dietary_preferences: [ "None" ]
       )
 
       allow_any_instance_of(ApplicationController)

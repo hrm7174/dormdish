@@ -39,11 +39,10 @@ class ShoppingList < ApplicationRecord
 
   def items_purchased_count
     return 0 unless items.present?
-  
+
     items.count do |item|
       # support both string and symbol keys, and booleans
       item["purchased"] || item[:purchased]
     end
   end
-  
 end

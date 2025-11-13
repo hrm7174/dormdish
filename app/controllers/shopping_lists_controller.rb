@@ -1,5 +1,5 @@
 class ShoppingListsController < ApplicationController
-  before_action :check_meal_plan_not_empty, only: [:index]
+  before_action :check_meal_plan_not_empty, only: [ :index ]
 
   def index
     @shopping_list =
