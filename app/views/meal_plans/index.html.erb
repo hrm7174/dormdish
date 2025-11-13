@@ -14,7 +14,6 @@
     <strong>Get Started:</strong> Your meal plan is empty. Browse recipes and add meals to enable shopping list generation.
   </div>
 <% else %>
-
   <div class="alert alert-secondary mb-3">
     <strong>Total Weekly Cost:</strong>
     $<%= number_with_precision(@weekly_total, precision: 2) %>
@@ -29,25 +28,26 @@
 
         <% meals.sort_by { |m| ["Breakfast", "Lunch", "Dinner", "Snack"].index(m.meal_type.capitalize) || 4 }.each do |mp| %>
           <div class="card mb-2">
-            <div class="card-body d-flex justify-content-between align-items-center">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <%= link_to recipe_path(mp.recipe), class: "text-decoration-none text-dark flex-grow-1" do %>
+                  <div>
+                    <strong><%= mp.meal_type.capitalize %>:</strong> <%= mp.recipe.name %>
+                  </div>
+                  <div>
+                    $<%= number_with_precision(mp.recipe.cost, precision: 2) %>
+                  </div>
+                <% end %>
 
-              <!-- Clickable area -->
-              <%= link_to recipe_path(mp.recipe), class: "w-100 text-decoration-none text-dark d-flex justify-content-between align-items-center" do %>
-                <div>
-                  <strong><%= mp.meal_type.capitalize %>:</strong> <%= mp.recipe.name %>
+                <div class="ms-2">
+                  <%= button_to "Remove",
+                  meal_plan_path(mp),
+                  method: :delete,
+                  class: "btn btn-outline-danger btn-sm",
+                  onclick: "return confirm('⚠️ Are you sure you want to remove: #{mp.recipe.name}?');" %>
                 </div>
-                <div>
-                  $<%= number_with_precision(mp.recipe.cost, precision: 2) %>
-                </div>
-              <% end %>
 
-        
-              <div class="ms-2">
-                <%= button_to "Remove",
-                      meal_plan_path(mp),
-                      method: :delete,
-                      data: { confirm: "Remove this meal?" },
-                      class: "btn btn-outline-danger btn-sm" %>
+
               </div>
             </div>
           </div>

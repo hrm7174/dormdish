@@ -18,7 +18,10 @@ class MealPlansController < ApplicationController
     end
 
     @weekly_total = @meal_plans.sum { |mp| mp.recipe.cost }
-    @meal_types = [ "Breakfast", "Lunch", "Dinner" ]
+
+    @ingredients = @meal_plans.map { |mp| mp.recipe.ingredients_list }.flatten.uniq
+
+    @meal_types = [ "Breakfast", "Lunch", "Dinner", "Snack" ]
     @days = DAY_ORDER
   end
 

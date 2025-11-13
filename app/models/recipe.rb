@@ -1,3 +1,4 @@
+
 class Recipe < ApplicationRecord
   validates :name, :meal_type, :cost, presence: true
   validates :cost, numericality: { greater_than_or_equal_to: 0 }

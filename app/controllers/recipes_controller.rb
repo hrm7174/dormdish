@@ -29,9 +29,9 @@ class RecipesController < ApplicationController
 
     @recipes = @recipes.select { |r| r.cost <= params[:max_cost].to_f } if params[:max_cost].present?
 
-    if params[:search].present?
-      search_term = params[:search].downcase
-      @recipes = @recipes.select { |r| r.name.downcase.include?(search_term) }
+    if params[:meal_type].present?
+      search_meal_type = params[:meal_type].strip.downcase
+      @recipes = @recipes.select { |r| r.meal_type.to_s.strip.downcase == search_meal_type }
     end
   end
 
@@ -53,11 +53,11 @@ class RecipesController < ApplicationController
 
 
     if params[:recipe][:dietary_tags].present?
-      @recipe.dietary_tags = params[:recipe][:dietary_tags].split(",").map(&:strip).reject(&:blank?)
+      @recipe.dietary_tags = params[:recipe][:dietary_tags].reject(&:blank?)
     end
 
     if params[:recipe][:appliances_needed].present?
-      @recipe.appliances_needed = params[:recipe][:appliances_needed].split(",").map(&:strip).reject(&:blank?)
+      @recipe.appliances_needed = params[:recipe][:appliances_needed].reject(&:blank?)
     end
 
     if @recipe.save
