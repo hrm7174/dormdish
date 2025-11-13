@@ -220,8 +220,8 @@ Given('there is a recipe {string} that requires {string}') do |recipe_name, appl
     r.meal_type = "dinner"
     r.prep_time = 20
     r.cost = 8.0
-    r.dietary_tags = ["Vegetarian"]
-    r.appliances_needed = [appliance]
+    r.dietary_tags = [ "Vegetarian" ]
+    r.appliances_needed = [ appliance ]
     r.ingredients = "test ingredients"
     r.instructions = "test instructions"
   end
@@ -252,14 +252,14 @@ Given('I have {string} in my meal plan for {string} {string}') do |recipe_name, 
     r.meal_type = meal_type.downcase
     r.prep_time = 10
     r.cost = 3.50
-    r.dietary_tags = ["Vegetarian"]
-    r.appliances_needed = ["Microwave"]
+    r.dietary_tags = [ "Vegetarian" ]
+    r.appliances_needed = [ "Microwave" ]
     r.ingredients = "test ingredients"
     r.instructions = "test instructions"
   end
-  
+
   user_profile = UserProfile.find_by(name: "Heidy")
-  
+
   MealPlan.create!(
     user_profile: user_profile,
     recipe: recipe,
