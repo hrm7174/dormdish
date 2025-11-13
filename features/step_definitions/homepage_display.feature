@@ -1,4 +1,5 @@
 # --- user story: homepage display ---
+
 Feature: Homepage and feature overview
   As a college student
   I want to see the main feature options on the homepage

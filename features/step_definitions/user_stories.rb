@@ -10,6 +10,8 @@ Given("I am logged in as {string}") do |name|
   fill_in "Your Name", with: name
   fill_in "Weekly Budget ($)", with: 50
   select "Microwave", from: "user_profile_appliances"
+  select "Mini Fridge", from: "user_profile_appliances"
+  select "Hot Plate", from: "user_profile_appliances"
   select "Vegetarian", from: "user_profile_dietary_preferences"
   click_button "Save Profile"
 end
@@ -48,7 +50,7 @@ Then("I should see {string}, {string}, and {string}") do |text1, text2, text3|
 end
 
 When('I click on {string}') do |text|
-  click_on text
+  click_on text, match: :first
 end
 
 When("I enter my name as {string}") do |name|
@@ -158,4 +160,119 @@ Then('I should see only dinner recipes costing ${float} or less') do |max_cost|
   Recipe.where(meal_type: "dinner").where("cost <= ?", max_cost).each do |recipe|
     expect(page).to have_content(recipe.name)
   end
+end
+
+
+
+Given('I am on the new profile page') do
+  visit new_user_profile_path
+end
+
+Given('I am on the new profile page with validation errors') do
+  visit new_user_profile_path
+  click_button "Save Profile" # This will trigger validation errors
+end
+
+When('I click {string} without entering any information') do |button_text|
+  click_button button_text
+end
+
+Then('I should see validation errors for all required fields') do
+  expect(page).to have_content("error") # Looks for "error" or "errors" in the message
+end
+
+Then('I should see {string} must be greater than {int}') do |field, value|
+  expect(page).to have_content("#{field} must be greater than #{value}")
+end
+
+When('I fill in all required fields with valid data') do
+  fill_in "Your Name", with: "Valid User"
+  fill_in "Weekly Budget ($)", with: 30
+  select "Microwave", from: "Available Appliances"
+  select "Vegetarian", from: "Dietary Preferences"
+end
+
+Then('I should not see any error messages') do
+  expect(page).not_to have_css('.alert-danger')
+  expect(page).not_to have_content("can't be blank")
+  expect(page).not_to have_content("Must select")
+end
+
+When('I select appliances {string}') do |appliance|
+  select appliance, from: "user_profile_appliances"
+end
+
+When('I click {string}') do |button_text|
+  click_button button_text
+end
+
+Then('I should be redirected to the recipes page') do
+  expect(current_path).to eq(recipes_path)
+end
+
+Then("my profile should have been saved") do
+  expect(UserProfile.last).not_to be_nil
+  expect(UserProfile.last.name).to be_present
+end
+
+Given('there is a recipe {string} that requires {string}') do |recipe_name, appliance|
+  Recipe.find_or_create_by!(name: recipe_name) do |r|
+    r.meal_type = "dinner"
+    r.prep_time = 20
+    r.cost = 8.0
+    r.dietary_tags = [ "Vegetarian" ]
+    r.appliances_needed = [ appliance ]
+    r.ingredients = "test ingredients"
+    r.instructions = "test instructions"
+  end
+end
+
+When('I visit the recipes page') do
+  visit recipes_path
+end
+
+When('I select {string} as the day') do |day|
+  select day, from: "day"
+end
+
+When('I select {string} as the meal type') do |meal_type|
+  select meal_type, from: "meal_type"
+end
+
+Then('I should be on the meal plans page') do
+  expect(current_path).to eq(meal_plans_path)
+end
+
+Then('I should not see {string}') do |text|
+  expect(page).not_to have_content(text)
+end
+
+Given('I have {string} in my meal plan for {string} {string}') do |recipe_name, day, meal_type|
+  recipe = Recipe.find_or_create_by!(name: recipe_name) do |r|
+    r.meal_type = meal_type.downcase
+    r.prep_time = 10
+    r.cost = 3.50
+    r.dietary_tags = [ "Vegetarian" ]
+    r.appliances_needed = [ "Microwave" ]
+    r.ingredients = "test ingredients"
+    r.instructions = "test instructions"
+  end
+
+  user_profile = UserProfile.find_by(name: "Heidy")
+
+  MealPlan.create!(
+    user_profile: user_profile,
+    recipe: recipe,
+    day: day,
+    meal_type: meal_type.downcase
+  )
+end
+
+When('I visit the meal plans page') do
+  visit meal_plans_path
+end
+
+Then('I should still see at least one meal in the plan') do
+  expect(page).to have_css('.card-body', minimum: 1)
+  expect(MealPlan.count).to be > 0
 end

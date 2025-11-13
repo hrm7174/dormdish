@@ -63,5 +63,21 @@
         <span class="small text-muted">Built with Rails, Bootstrap, and lots of snacks 🍪</span>
       </div>
     </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.btn-close').forEach(function(closeButton) {
+        closeButton.addEventListener('click', function() {
+          this.closest('.alert').remove();
+        });
+      });
+      
+      setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+          alert.remove();
+        });
+      }, 8000);
+    });
+    </script>
   </body>
 </html>
