@@ -248,18 +248,29 @@ Then('I should not see {string}') do |text|
 end
 
 Given('I have {string} in my meal plan for {string} {string}') do |recipe_name, day, meal_type|
+  ingredients_list = if recipe_name == "Overnight Oats"
+    [ "Oats", "Milk", "Honey", "Banana" ]
+  elsif recipe_name == "Microwave Mac & Cheese"
+    [ "Pasta", "Cheese", "Milk" ]
+  else
+    [ "test ingredients" ]
+  end
+
   recipe = Recipe.find_or_create_by!(name: recipe_name) do |r|
     r.meal_type = meal_type.downcase
     r.prep_time = 10
     r.cost = 3.50
     r.dietary_tags = [ "Vegetarian" ]
     r.appliances_needed = [ "Microwave" ]
-    r.ingredients = "test ingredients"
+    r.ingredients = ingredients_list.join(", ")
+    r.ingredients_list = ingredients_list
     r.instructions = "test instructions"
   end
 
+  # Get the current user profile
   user_profile = UserProfile.find_by(name: "Heidy")
 
+  # Create a meal plan entry WITH day and meal_type
   MealPlan.create!(
     user_profile: user_profile,
     recipe: recipe,
@@ -275,4 +286,22 @@ end
 Then('I should still see at least one meal in the plan') do
   expect(page).to have_css('.card-body', minimum: 1)
   expect(MealPlan.count).to be > 0
+end
+
+Then('I should be on the shopping lists page') do
+  expect(current_path).to match(/shopping_lists/)
+end
+
+Then('I should see ingredients from both recipes') do
+  # Check that at least some ingredients are visible
+  expect(page).to have_content('Oats')
+  expect(page).to have_content('Pasta')
+end
+
+When('I visit the shopping lists page') do
+  visit shopping_lists_path
+end
+
+When('I visit the check meal plan page') do
+  visit check_meal_plan_shopping_lists_path
 end
