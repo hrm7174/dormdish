@@ -45,21 +45,40 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-
-
+  
     if params[:recipe][:ingredients].present?
-      @recipe.ingredients = params[:recipe][:ingredients].split(/\r?\n/).map(&:strip).reject(&:blank?).join(", ")
+      @recipe.ingredients =
+        params[:recipe][:ingredients]
+          .split(/\r?\n/)
+          .map(&:strip)
+          .reject(&:blank?)
+          .join(", ")
     end
-
-
+  
     if params[:recipe][:dietary_tags].present?
-      @recipe.dietary_tags = params[:recipe][:dietary_tags].reject(&:blank?)
+      raw_tags = params[:recipe][:dietary_tags]
+      tags_array =
+        if raw_tags.is_a?(String)
+          raw_tags.split(",")
+        else
+          Array(raw_tags)
+        end
+  
+      @recipe.dietary_tags = tags_array.map(&:strip).reject(&:blank?)
     end
-
+  
     if params[:recipe][:appliances_needed].present?
-      @recipe.appliances_needed = params[:recipe][:appliances_needed].reject(&:blank?)
+      raw_appliances = params[:recipe][:appliances_needed]
+      appliances_array =
+        if raw_appliances.is_a?(String)
+          raw_appliances.split(",")
+        else
+          Array(raw_appliances)
+        end
+  
+      @recipe.appliances_needed = appliances_array.map(&:strip).reject(&:blank?)
     end
-
+  
     if @recipe.save
       redirect_to @recipe, notice: "Recipe created successfully!"
     else
@@ -67,6 +86,7 @@ class RecipesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  
 
   private
 

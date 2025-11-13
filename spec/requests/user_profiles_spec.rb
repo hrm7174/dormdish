@@ -117,42 +117,45 @@ RSpec.describe "UserProfiles", type: :request do
       expect(session[:user_profile_id]).to be_nil
     end
 
-    xit "destroys associated meal plans and shopping lists" do
-      profile = UserProfile.create!(
-        name: "Test User",
-        weekly_budget: 30,
-        appliances: [ "Microwave" ],
-        dietary_preferences: [ "Vegetarian" ]
-      )
+    #it "destroys associated meal plans and shopping lists" do
+      #profile = UserProfile.create!(
+       # name: "Test User",
+       # weekly_budget: 30,
+        #appliances: ["Microwave"],
+        #dietary_preferences: ["None"]
+      #)
+    #
+     # recipe = Recipe.create!(
+      #  name: "Dorm Mac",
+       # meal_type: "dinner",
+        #cost: 3
+      #)
+    
+      #meal_plan = MealPlan.create!(
+       # user_profile: profile,
+        #recipe: recipe,
+        #day: "Monday",
+        #meal_type: "Dinner"
+      #)
+    
+      
+     # ShoppingList.create!(
+     #   user_profile: profile,
+     #   items: [
+     #     { "name" => "Pasta", "recipes" => [recipe.name], "purchased" => false }
+     #   ]
+     # )
+    
+     # expect {
+      #  delete user_profile_path(profile)
+     # }.to change(UserProfile, :count).by(-1)
+     #  .and change(MealPlan, :count).by(-1)
+     #  .and change(ShoppingList, :count).by(-2)
 
-      recipe = Recipe.create!(
-        name: "Mac & Cheese",
-        meal_type: "Dinner",
-        prep_time: 10,
-        cost: 3.5,
-        appliances_needed: [ "Microwave" ],
-        dietary_tags: [ "Vegetarian" ],
-        ingredients: "Pasta, Cheese, Milk"
-      )
-
-      meal_plan = MealPlan.create!(
-        user_profile: profile,
-        recipe: recipe,
-        day: "Monday",
-        meal_type: "Dinner"
-      )
-
-      ShoppingList.create!(
-        user_profile: profile,
-        meal_plan: meal_plan,
-        items: []
-      )
-
-      expect {
-        delete user_profile_path(profile)
-      }.to change(MealPlan, :count).by(-1)
-       .and change(ShoppingList, :count).by(-1)
-    end
+    #
+     # expect(response).to redirect_to(root_path)
+   # end
+    
   end
 
     #  Failed update hits render :edit, status: :unprocessable_entity
