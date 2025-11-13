@@ -1,21 +1,17 @@
-
 class ShoppingListsController < ApplicationController
   before_action :check_meal_plan_not_empty, only: [ :index ]
 
-
   def index
-    @shopping_list = current_profile.shopping_lists.last || current_profile.shopping_lists.create
+    @shopping_list =
+      current_profile.shopping_lists.last ||
+      current_profile.shopping_lists.create
 
-
-   if params[:refresh].present? || @shopping_list.items.blank?
-    @shopping_list.generate_items
-   end
-
+    if params[:refresh].present? || @shopping_list.items.blank?
+      @shopping_list.generate_items
+    end
 
     @recipes = current_profile.meal_plans.includes(:recipe).map(&:recipe).uniq
-
-
-    @items = @shopping_list.items || []
+    @items   = @shopping_list.items || []
 
     if params[:recipe_id].present?
       @selected_recipe = Recipe.find_by(id: params[:recipe_id])
@@ -25,23 +21,36 @@ class ShoppingListsController < ApplicationController
     end
   end
 
-
   def show
-      @shopping_list = ShoppingList.find(params[:id])
-      @items = @shopping_list.items || []
+    @shopping_list = ShoppingList.find(params[:id])
+    @items = @shopping_list.items || []
   end
-
 
   def destroy_item
     @shopping_list = ShoppingList.find(params[:id])
     ingredient_name = params[:ingredient_name]
 
     if @shopping_list.items.present?
-      @shopping_list.items = @shopping_list.items.reject { |i| i["name"] == ingredient_name }
+      @shopping_list.items =
+        @shopping_list.items.reject { |i| i["name"] == ingredient_name }
       @shopping_list.save!
     end
 
-    redirect_to shopping_lists_path, notice: "#{ingredient_name} removed from shopping list."
+    redirect_to shopping_lists_path,
+                notice: "#{ingredient_name} removed from shopping list."
+  end
+
+  # used by specs hitting GET /shopping_lists/check_meal_plan
+  def check_meal_plan
+    if current_profile.meal_plans.empty?
+      render :empty_meal_plan
+    else
+      redirect_to shopping_lists_path
+    end
+  end
+
+  def empty_meal_plan
+    # just renders app/views/shopping_lists/empty_meal_plan.html.erb
   end
 
   private
@@ -52,7 +61,8 @@ class ShoppingListsController < ApplicationController
 
   def check_meal_plan_not_empty
     if current_profile.meal_plans.empty?
-      redirect_to meal_plans_path, alert: "Please add at least one meal to your meal plan before generating a shopping list."
+      redirect_to meal_plans_path,
+                  alert: "Please add at least one meal to your meal plan before generating a shopping list."
     end
   end
 end
