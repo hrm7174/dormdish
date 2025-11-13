@@ -1,22 +1,28 @@
-# frozen_string_literal: true
-
+# spec/models/recipe_spec.rb
 require "rails_helper"
 
 RSpec.describe Recipe, type: :model do
-  it "is invalid without a name" do
-    recipe = Recipe.new(meal_type: "dinner", cost: 5.0)
-    expect(recipe).not_to be_valid
-    expect(recipe.errors[:name]).to be_present
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:meal_type) }
+    it { is_expected.to validate_presence_of(:cost) }
+    it { is_expected.to validate_numericality_of(:cost).is_greater_than_or_equal_to(0) }
   end
 
-  it "is invalid if cost is negative" do
-    recipe = Recipe.new(name: "Broken Recipe", meal_type: "dinner", cost: -1)
-    expect(recipe).not_to be_valid
-    expect(recipe.errors[:cost]).to be_present
+  describe "associations" do
+    it { is_expected.to have_many(:meal_plans).dependent(:destroy) }
+    it { is_expected.to have_many(:user_profiles).through(:meal_plans) }
   end
 
-  it "is valid with a name, meal_type, and nonnegative cost" do
-    recipe = Recipe.new(name: "Good Recipe", meal_type: "dinner", cost: 3.5)
-    expect(recipe).to be_valid
+  describe "#ingredients_list" do
+    it "returns an empty array when ingredients is blank" do
+      recipe = described_class.new(ingredients: nil)
+      expect(recipe.ingredients_list).to eq([])
+    end
+
+    it "splits a comma-separated string into trimmed items" do
+      recipe = described_class.new(ingredients: "Oats,  Milk ,  Honey  ,")
+      expect(recipe.ingredients_list).to eq(%w[Oats Milk Honey])
+    end
   end
 end
