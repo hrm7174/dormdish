@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get "empty_meal_plan"
       get "check_meal_plan"
     end
-    member do 
+    member do
        delete "destroy_item"
     end
   end

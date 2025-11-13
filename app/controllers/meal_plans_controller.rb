@@ -21,7 +21,7 @@ class MealPlansController < ApplicationController
 
     @ingredients = @meal_plans.map { |mp| mp.recipe.ingredients_list }.flatten.uniq
 
-    @meal_types = ["Breakfast", "Lunch", "Dinner", "Snack"]
+    @meal_types = [ "Breakfast", "Lunch", "Dinner", "Snack" ]
     @days = DAY_ORDER
   end
 

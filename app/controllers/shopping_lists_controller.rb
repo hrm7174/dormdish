@@ -1,18 +1,17 @@
 
 class ShoppingListsController < ApplicationController
-  before_action :check_meal_plan_not_empty, only: [:index]
+  before_action :check_meal_plan_not_empty, only: [ :index ]
 
 
   def index
-  
     @shopping_list = current_profile.shopping_lists.last || current_profile.shopping_lists.create
 
-  
+
    if params[:refresh].present? || @shopping_list.items.blank?
     @shopping_list.generate_items
    end
 
- 
+
     @recipes = current_profile.meal_plans.includes(:recipe).map(&:recipe).uniq
 
 

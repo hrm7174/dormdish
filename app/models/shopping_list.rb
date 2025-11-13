@@ -8,7 +8,7 @@ class ShoppingList < ApplicationRecord
     def generate_items
     ingredient_map = {}
 
-   
+
     recipes = user_profile.meal_plans.includes(:recipe).map(&:recipe).compact
 
     recipes.each do |recipe|
@@ -31,7 +31,7 @@ class ShoppingList < ApplicationRecord
     return [] unless recipe
     items.select { |i| i["recipes"].include?(recipe.name) } rescue []
   end
-  
+
   def remove_ingredient(name)
     self.items.reject! { |i| i["name"] == name }
     save
