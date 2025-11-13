@@ -305,3 +305,31 @@ end
 When('I visit the check meal plan page') do
   visit check_meal_plan_shopping_lists_path
 end
+
+Then('I should be on the new recipe page') do
+  expect(current_path).to eq(new_recipe_path)
+end
+
+When('I fill in {string} with {string}') do |field, value|
+  fill_in field, with: value
+end
+
+When('I select {string} from the meal type field') do |meal_type|
+  select meal_type, from: "Meal type"
+end
+
+When('I fill in the ingredients with {string} and {string}') do |ingredient1, ingredient2|
+  fill_in "Ingredients (one per line)", with: "#{ingredient1}\n#{ingredient2}"
+end
+
+When('I fill in the instructions with {string}') do |instructions|
+  fill_in "Instructions", with: instructions
+end
+
+When('I select dietary tag {string}') do |tag|
+  select tag, from: "Dietary Tags"
+end
+
+When('I select appliance {string}') do |appliance|
+  select appliance, from: "Appliances Needed"
+end
