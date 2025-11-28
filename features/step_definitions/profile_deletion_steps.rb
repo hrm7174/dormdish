@@ -15,7 +15,7 @@ Given('I am viewing my profile page') do
 
   When('I confirm the deletion') do
   end
-
+ 
   When('I cancel the confirmation dialog') do
   end
 
