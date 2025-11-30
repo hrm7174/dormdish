@@ -1,29 +1,88 @@
 <% content_for :page_header do %>
-    <h1 class="h3 mb-0">Find <%= @ingredient_name %></h1>
-  <% end %>
-  
-  <div class="mb-3">
-    <%= link_to "Back to Shopping List", shopping_lists_path, class: "btn btn-outline-secondary btn-pill" %>
+  <h1 class="h3 mb-0">Find <%= @ingredient_name %></h1>
+<% end %>
+
+<div class="mb-3">
+  <%= link_to "Back to Shopping List", shopping_lists_path, class: "btn btn-outline-secondary btn-pill" %>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <%= form_with url: search_products_path, method: :get, local: true, class: "row g-3 align-items-end" do |f| %>
+      
+     
+      <%= f.hidden_field :ingredient, value: @ingredient_name %>
+
+      
+      <div class="col-md-4">
+        <label class="form-label">Store</label>
+        <%= f.select :source,
+          options_for_select([
+            ["All Stores", "all"],
+            ["Hmart", "hmart"],
+            ["Westside", "westside"]
+          ], params[:source]),
+          {},
+          class: "form-select"
+        %>
+      </div>
+
+      
+      <div class="col-md-3">
+        <label class="form-label">Min Cost($)</label>
+        <%= f.number_field :price_min, value: params[:price_min], class: "form-control", step: "0.01" %>
+      </div>
+
+      
+      <div class="col-md-3">
+        <label class="form-label">Max Cost($)</label>
+        <%= f.number_field :price_max, value: params[:price_max], class: "form-control", step: "0.01" %>
+      </div>
+
+       <div class="col-md-2 d-grid">
+        <%= f.submit "Filter", class: "btn btn-primary btn-pill" %>
+        <%= link_to "Reset", search_products_path(ingredient: @ingredient_name), class: "btn btn-outline-secondary btn-pill mt-2" %>
+      </div>
+
+      
+      <div class="col-md-3">
+        <label class="form-label">Sort By</label>
+        <%= f.select :sort,
+          options_for_select([
+            ["Price: Low → High", "asc"],
+            ["Price: High → Low", "desc"]
+          ], params[:sort]),
+          {}, class: "form-select" %>
+      </div>
+
+    <% end %>
   </div>
-  
-  <% if @products.any? %>
-    <div class="row g-4">
-      <% @products.each do |product| %>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 <%= product[:source] == 'westside' ? 'bg-dark text-white' : 'bg-danger text-white' %>">
-            <div class="card-body">
-              <h5 class="card-title text-white"><%= product[:name] %></h5>
-              <p class="h4 text-white mb-3">$<%= number_with_precision(product[:price], precision: 2) %></p>
-              <span class="badge <%= product[:source] == 'westside' ? 'bg-light text-dark' : 'bg-light text-danger' %>">
-                <%= product[:source].capitalize %>
-              </span>
-            </div>
+</div>
+
+
+<% if @products.any? %>
+  <div class="row g-4">
+    <% @products.each do |product| %>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 <%= product[:source] == 'westside' ? 'bg-dark text-white' : 'bg-danger text-white' %>">
+          <div class="card-body">
+            <h5 class="card-title text-white"><%= product[:name] %></h5>
+
+            <p class="h4 text-white mb-3">
+              $<%= number_with_precision(product[:price], precision: 2) %>
+            </p>
+
+            <span class="badge <%= product[:source] == 'westside' ? 'bg-light text-dark' : 'bg-light text-danger' %>">
+              <%= product[:source].capitalize %>
+            </span>
           </div>
         </div>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="alert alert-warning">
-      No products found for "<%= @ingredient_name %>". Try searching with a different term.
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <div class="alert alert-warning">
+    No products found for "<%= @ingredient_name %>". Try adjusting your filters.
+  </div>
+<% end %>
