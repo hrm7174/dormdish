@@ -17,10 +17,10 @@ class ProductsController < ApplicationController
         source = row[:source]
         price = row[:price].to_s.gsub(/[^\d.]/, "").to_f
 
-       
+
         next unless name&.downcase&.include?(@ingredient_name.downcase)
 
-        
+
         if @selected_source.present? && @selected_source != "all"
           next unless source.downcase == @selected_source.downcase
         end
@@ -42,11 +42,10 @@ class ProductsController < ApplicationController
 
       # adding sorting ability
       if params[:sort] == "desc"
-        @products.sort_by! { |p| -p[:price] }   
+        @products.sort_by! { |p| -p[:price] }
       else
-        @products.sort_by! { |p| p[:price] }    
+        @products.sort_by! { |p| p[:price] }
       end
     end
   end
 end
-

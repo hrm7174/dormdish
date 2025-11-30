@@ -9,11 +9,8 @@
 <div class="card mb-4">
   <div class="card-body">
     <%= form_with url: search_products_path, method: :get, local: true, class: "row g-3 align-items-end" do |f| %>
-      
-     
       <%= f.hidden_field :ingredient, value: @ingredient_name %>
 
-      
       <div class="col-md-4">
         <label class="form-label">Store</label>
         <%= f.select :source,
@@ -27,12 +24,10 @@
         %>
       </div>
 
-      
       <div class="col-md-3">
         <label class="form-label">Min Cost($)</label>
         <%= f.number_field :price_min, value: params[:price_min], class: "form-control", step: "0.01" %>
       </div>
-
       
       <div class="col-md-3">
         <label class="form-label">Max Cost($)</label>
@@ -44,7 +39,6 @@
         <%= link_to "Reset", search_products_path(ingredient: @ingredient_name), class: "btn btn-outline-secondary btn-pill mt-2" %>
       </div>
 
-      
       <div class="col-md-3">
         <label class="form-label">Sort By</label>
         <%= f.select :sort,
@@ -58,7 +52,6 @@
     <% end %>
   </div>
 </div>
-
 
 <% if @products.any? %>
   <div class="row g-4">
