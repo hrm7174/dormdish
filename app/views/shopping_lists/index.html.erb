@@ -52,11 +52,9 @@
                 class: "btn btn-sm btn-outline-danger",
                 onclick: "return confirm('Are you sure you want to remove #{item["name"]} from your shopping list?');" %>
 
-            <%= link_to "Purchase",
-              "https://hmartdelivery.com/search?type=product&q=#{CGI.escape(item["name"])}*",
-              target: "_blank",
-              rel: "noopener",
-              class: "btn btn-sm btn-outline-success" %>
+              <%= link_to "Purchase",
+                search_products_path(ingredient: item["name"], shopping_list_id: @shopping_list.id),
+                class: "btn btn-sm btn-outline-success" %>
             </div>
           </li>
         <% end %>

@@ -1,0 +1,29 @@
+<% content_for :page_header do %>
+    <h1 class="h3 mb-0">Find <%= @ingredient_name %></h1>
+  <% end %>
+  
+  <div class="mb-3">
+    <%= link_to "Back to Shopping List", shopping_lists_path, class: "btn btn-outline-secondary btn-pill" %>
+  </div>
+  
+  <% if @products.any? %>
+    <div class="row g-4">
+      <% @products.each do |product| %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 <%= product[:source] == 'westside' ? 'bg-dark text-white' : 'bg-danger text-white' %>">
+            <div class="card-body">
+              <h5 class="card-title text-white"><%= product[:name] %></h5>
+              <p class="h4 text-white mb-3">$<%= number_with_precision(product[:price], precision: 2) %></p>
+              <span class="badge <%= product[:source] == 'westside' ? 'bg-light text-dark' : 'bg-light text-danger' %>">
+                <%= product[:source].capitalize %>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-warning">
+      No products found for "<%= @ingredient_name %>". Try searching with a different term.
+    </div>
+  <% end %>

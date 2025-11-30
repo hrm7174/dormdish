@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "products/search", to: "products#search", as: "search_products"
   root "pages#home"
   resources :user_profiles, only: [ :new, :create, :show, :edit, :update, :destroy ]
   resources :recipes, only: [ :index, :show, :new, :create, :destroy ]
