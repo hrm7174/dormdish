@@ -333,3 +333,95 @@ end
 When('I select appliance {string}') do |appliance|
   select appliance, from: "Appliances Needed"
 end
+
+Then('I should see products for the ingredient') do
+  expect(page).to have_css('.card', minimum: 1)
+end
+
+Then('I should see prices and store information') do
+  expect(page).to have_content('$')
+  expect(page).to have_css('.badge')
+end
+
+When('I visit the products search page for {string}') do |ingredient|
+  visit search_products_path(ingredient: ingredient)
+end
+
+Then('the products should be sorted by price from lowest to highest') do
+  prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+  expect(prices).to eq(prices.sort)
+end
+
+When('I select {string} from the store filter') do |store|
+  select store, from: "source"
+end
+
+When('I fill in {string} in the max cost filter') do |cost|
+  fill_in "price_max", with: cost
+end
+
+When('I fill in {string} in the min cost filter') do |cost|
+  fill_in "price_min", with: cost
+end
+
+Then('I should only see products from {string}') do |store|
+  within('.row.g-4') do
+    all('.badge').each do |badge|
+      expect(badge.text.downcase).to eq(store.downcase)
+    end
+  end
+end
+
+Then('I should not see products from {string}') do |store|
+  within('.row.g-4') do
+    expect(page).not_to have_content(store)
+  end
+end
+
+Then('I should only see products costing ${float} or less') do |max_price|
+  prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+  prices.each do |price|
+    expect(price).to be <= max_price
+  end
+end
+
+Then('I should not see products costing more than ${float}') do |max_price|
+  prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+  prices.each do |price|
+    expect(price).to be <= max_price
+  end
+end
+
+Then('I should only see products costing ${float} or more') do |min_price|
+  prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+  prices.each do |price|
+    expect(price).to be >= min_price
+  end
+end
+
+Then('I should only see {string} products between ${float} and ${float}') do |store, min_price, max_price|
+  within('.row.g-4') do
+    all('.badge').each do |badge|
+      expect(badge.text.downcase).to eq(store.downcase)
+    end
+    
+    prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+    prices.each do |price|
+      expect(price).to be_between(min_price, max_price)
+    end
+  end
+end
+
+When('I select {string} from the sort by dropdown') do |sort_option|
+  select sort_option, from: "sort"
+end
+
+Then('the products should be sorted by price from highest to lowest') do
+  prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
+  expect(prices).to eq(prices.sort.reverse)
+end
+
+Then('I should see products from all stores') do
+  expect(page).to have_content('Westside')
+  expect(page).to have_content('Hmart')
+end
