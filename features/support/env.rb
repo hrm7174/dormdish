@@ -12,7 +12,7 @@ SimpleCov.start 'rails' do
   add_filter '/vendor/'
   add_filter '/spec/'
   add_filter '/test/'
-  
+
   # Track feature file usage
   track_files 'app/**/*.rb'
   track_files 'lib/**/*.rb'

@@ -71,7 +71,7 @@ end
 When("I update my weekly budget to {int}") do |budget|
   # Fill the field using the exact label text from your HTML
   fill_in "Weekly Budget ($)", with: budget
-  
+
   # Click the submit input by its value attribute
   find('input[type="submit"][value="Update Profile"]').click
 end
@@ -79,7 +79,7 @@ end
 When("I change dietary preference to {string}") do |preference|
   # Select from the dropdown using the label text
   select preference, from: "Dietary Preferences"
-  
+
   # Click the submit input by its value attribute
   find('input[type="submit"][value="Update Profile"]').click
 end
@@ -451,17 +451,17 @@ Then('{string} should be in my meal plan for {string} {string}') do |recipe_name
   end
   puts "Total MealPlans: #{MealPlan.count}"
   puts "=== END DEBUG ===\n"
-  
+
   # Since controller uses UserProfile.first, use that
   user_profile = UserProfile.first
-  
+
   # Check that we have the right user
   puts "Current UserProfile (first): #{user_profile.name}"
-  
+
   # Find the recipe
   recipe = Recipe.find_by(name: recipe_name)
   expect(recipe).not_to be_nil, "Recipe #{recipe_name} not found in database"
-  
+
   # Try different ways to find the meal plan
   meal_plan = MealPlan.find_by(
     user_profile: user_profile,
@@ -469,7 +469,7 @@ Then('{string} should be in my meal plan for {string} {string}') do |recipe_name
     day: day,
     meal_type: meal_type.downcase
   )
-  
+
   # If not found, try with capitalized meal_type
   unless meal_plan
     meal_plan = MealPlan.find_by(
@@ -479,7 +479,7 @@ Then('{string} should be in my meal plan for {string} {string}') do |recipe_name
       meal_type: meal_type.capitalize
     )
   end
-  
+
   # If still not found, try with exact case
   unless meal_plan
     meal_plan = MealPlan.find_by(
@@ -490,14 +490,14 @@ Then('{string} should be in my meal plan for {string} {string}') do |recipe_name
     # Check if meal_type matches case-insensitively
     meal_plan = nil unless meal_plan&.meal_type&.downcase == meal_type.downcase
   end
-  
+
   # Final check with detailed error message
   expect(meal_plan).not_to be_nil, <<~ERROR
     Expected #{recipe_name} to be in meal plan for #{day} #{meal_type}
-    
+
     Current meal plans for #{user_profile.name}:
     #{user_profile.meal_plans.map { |mp| "  - #{mp.recipe.name}: #{mp.day} #{mp.meal_type}" }.join("\n")}
-    
+
     All recipes in DB: #{Recipe.pluck(:name).join(', ')}
     All meal plans in DB: #{MealPlan.pluck(:recipe_id, :day, :meal_type).inspect}
   ERROR
@@ -506,7 +506,7 @@ end
 When('I click on {string} for {string}') do |button_text, recipe_name|
   # Find the card containing the recipe name
   card = page.find('.card', text: /#{recipe_name}/i)
-  
+
   within(card) do
     click_on button_text
   end
@@ -516,7 +516,7 @@ When('I click {string} next to {string}') do |button_text, item_name|
   # Find the specific list item that contains the ingredient as its own item
   # Look for list items that start with the ingredient name
   item_element = page.find('li', text: /^#{item_name}/i, match: :first)
-  
+
   within(item_element) do
     click_on button_text
   end
@@ -530,7 +530,7 @@ Then('I should not see {string} in my shopping list') do |item_name|
   # Check that ingredient is not present as its own list item
   # Allow the word to appear in recipe descriptions (like "Overnight Oats")
   expect(page).not_to have_css('li', text: /^#{item_name}/i)
-  
+
   # Alternative: check that there's no list item starting with the ingredient
   page.all('li').each do |li|
     expect(li.text).not_to match(/^#{item_name}\s+/i)
@@ -542,10 +542,10 @@ end
 When('I select {string} from the filter dropdown') do |option|
   # Select the option from the dropdown
   page.select(option)
-  
+
   # Click the Filter button
   click_on 'Filter'
-  
+
   # Wait for the filter to apply
   sleep 0.5
 end
@@ -553,9 +553,9 @@ end
 Then('I should see {string} dropdown') do |dropdown_label|
   # From your output, it seems like "Filter by Recipe" is just text, not a dropdown
   # Let's check for the presence of filter options instead
-  
+
   expect(page).to have_content(dropdown_label)
-  
+
   # Check that filter options are present
   expect(page).to have_content('All Recipes')
   expect(page).to have_content('Overnight Oats')
@@ -565,10 +565,10 @@ end
 Then('I should not see ingredients for {string}') do |recipe_name|
   # Wait for filter to apply
   sleep 0.5
-  
+
   # Get all ingredient list items
   ingredient_items = page.all('li')
-  
+
   ingredient_items.each do |item|
     if item.text.include?('used in:')
       # Check that the ingredient doesn't mention the filtered-out recipe
@@ -604,13 +604,13 @@ end
 Then('I should only see ingredients for {string}') do |recipe_name|
   # Wait for filter to apply
   sleep 0.5
-  
+
   # Based on your page structure, ingredients are listed with "used in: [recipe]"
   # So we should only see ingredients that mention this recipe
-  
+
   # Get all ingredient list items
   ingredient_items = page.all('li')
-  
+
   ingredient_items.each do |item|
     if item.text.include?('used in:')
       # Check that the ingredient is used only in the filtered recipe
@@ -629,27 +629,27 @@ end
 Then('the shopping list should be updated without {string}') do |item_name|
   # Wait a moment for the page to update
   sleep 0.5
-  
+
   # Check that the ingredient item (starting with ingredient name) is gone
   # But allow the word to appear in recipe names
   has_ingredient_item = page.all('li').any? do |li|
     li.text.match(/^#{item_name}\s+/i)
   end
-  
+
   expect(has_ingredient_item).to be false
 end
 
 Then('I should see ingredients used in {string}') do |recipe_name|
   sleep 0.5
-  
+
   # Get all ingredients that mention this recipe
   ingredients_for_recipe = page.all('li').select do |item|
     item.text.include?('used in:') && item.text.include?(recipe_name)
   end
-  
+
   # We should see at least some ingredients for this recipe
   expect(ingredients_for_recipe.count).to be > 0
-  
+
   puts "\n=== INGREDIENTS FOR #{recipe_name} ==="
   ingredients_for_recipe.each do |item|
     puts "  - #{item.text.split("\n").first}"
@@ -659,7 +659,7 @@ end
 
 Then('I should not see ingredients used only in {string}') do |recipe_name|
   sleep 0.5
-  
+
   # Check that no ingredients are used ONLY in this recipe
   page.all('li').each do |item|
     if item.text.include?('used in:')
@@ -667,9 +667,9 @@ Then('I should not see ingredients used only in {string}') do |recipe_name|
       used_in_text = item.text.match(/used in:\s*(.+)/)
       if used_in_text
         recipes = used_in_text[1].split(', ')
-        
+
         # If ingredient is used ONLY in the excluded recipe, that's an error
-        if recipes == [recipe_name]
+        if recipes == [ recipe_name ]
           expect(false).to be true, "Found ingredient used only in #{recipe_name}: #{item.text}"
         end
       end
@@ -682,10 +682,10 @@ When('I navigate to my profile page') do
   # First, get the user profile
   user_profile = UserProfile.last
   expect(user_profile).not_to be_nil
-  
+
   # Go to edit page
   visit edit_user_profile_path(user_profile)
-  
+
   # Debug: Check what page we're on
   puts "\n=== DEBUG: ON EDIT PAGE? ==="
   puts "URL: #{current_url}"
@@ -695,7 +695,7 @@ When('I navigate to my profile page') do
   puts "  Weekly Budget ($): #{page.has_field?('Weekly Budget ($)')}"
   puts "  Dietary Preferences: #{page.has_select?('Dietary Preferences')}"
   puts "=== END DEBUG ===\n"
-  
+
   # Verify we're on the edit page
   expect(page).to have_content('Edit Your Profile')
 end
