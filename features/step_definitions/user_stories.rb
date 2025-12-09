@@ -404,7 +404,7 @@ Then('I should only see {string} products between ${float} and ${float}') do |st
     all('.badge').each do |badge|
       expect(badge.text.downcase).to eq(store.downcase)
     end
-    
+
     prices = page.all('.h4').map { |el| el.text.gsub(/[^\d.]/, '').to_f }
     prices.each do |price|
       expect(price).to be_between(min_price, max_price)
