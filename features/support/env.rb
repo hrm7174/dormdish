@@ -1,10 +1,22 @@
 require 'cucumber/rails'
+require 'simplecov'
 require 'capybara/rails'
 require 'capybara/cucumber'
 require 'rspec/rails'
 require 'rspec/expectations'
 
 ActionController::Base.allow_rescue = false
+
+SimpleCov.start 'rails' do
+  # Configuration for Rails
+  add_filter '/vendor/'
+  add_filter '/spec/'
+  add_filter '/test/'
+  
+  # Track feature file usage
+  track_files 'app/**/*.rb'
+  track_files 'lib/**/*.rb'
+end
 
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
