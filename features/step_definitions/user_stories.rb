@@ -704,3 +704,144 @@ Then('I should see my profile showing dietary preference {string}') do |preferen
   # Check that the dietary preference is displayed
   expect(page).to have_content(preference)
 end
+
+# Add these to features/step_definitions/user_stories.rb
+
+Given('I have no recipes in my meal plan') do
+  # Get the user profile that was created in "I am logged in as"
+  user_profile = UserProfile.find_by(name: "Heidy")
+  expect(user_profile).not_to be_nil
+
+  # Clear all meal plans
+  user_profile.meal_plans.destroy_all
+end
+
+When('I visit the shopping lists page directly') do
+  visit shopping_lists_path
+end
+
+Then('I should be redirected to the meal plans page') do
+  expect(current_path).to eq(meal_plans_path)
+end
+
+Given('I have a shopping list with {string} but not {string}') do |item1, item2|
+  # First, ensure we have a meal plan with Milk
+  user_profile = UserProfile.find_by(name: "Heidy")
+
+  # Clear existing meal plans
+  user_profile.meal_plans.destroy_all
+
+  # Create a recipe with Milk but not Eggs
+  recipe = Recipe.find_or_create_by!(name: "Milk Recipe") do |r|
+    r.meal_type = "breakfast"
+    r.prep_time = 10
+    r.cost = 5.0
+    r.dietary_tags = [ "Vegetarian" ]
+    r.ingredients = "#{item1}, Honey, Banana"
+    r.ingredients_list = [ item1, "Honey", "Banana" ]
+    r.instructions = "test instructions"
+  end
+
+  # Add to meal plan
+  MealPlan.create!(
+    user_profile: user_profile,
+    recipe: recipe,
+    day: "Monday",
+    meal_type: "breakfast"
+  )
+
+  # Generate shopping list - be specific about which button to click
+  visit meal_plans_path
+
+  # Try different ways to click the specific button:
+
+  # Option 1: Click the first button with that text
+  first('a', text: "Generate Shopping List", match: :first).click
+
+  # Option 2: If there's a specific section/container
+  # within('.meal-plans-section') do
+  #   click_on "Generate Shopping List"
+  # end
+
+  # Option 3: Find by ID or class
+  # find('#generate-shopping-list-btn').click
+
+  # Verify Milk is present, Eggs is not
+  expect(page).to have_content(item1)
+  expect(page).not_to have_content(item2)
+end
+
+When('I try to remove {string} from the shopping list') do |ingredient_name|
+  # Find the shopping list
+  user_profile = UserProfile.find_by(name: "Heidy")
+  shopping_list = user_profile.shopping_lists.last
+
+  # Use the correct route: delete "/shopping_lists/:id/destroy_item"
+  # Use Capybara's page.driver.submit for non-GET requests
+  page.driver.submit :delete, destroy_item_shopping_list_path(shopping_list, ingredient_name: ingredient_name), {}
+end
+
+Then('the shopping list should remain unchanged') do
+  user_profile = UserProfile.find_by(name: "Heidy")
+  shopping_list = user_profile.shopping_lists.last
+
+  # Shopping list should still contain "Milk"
+  has_milk = shopping_list.items.any? { |item| item["name"] == "Milk" }
+  expect(has_milk).to be true
+end
+
+Then('I should see a notice saying {string}') do |notice|
+  expect(page).to have_content(notice)
+end
+
+Given('I have an empty shopping list') do
+  user_profile = UserProfile.find_by(name: "Heidy")
+
+  # Clear existing shopping lists
+  user_profile.shopping_lists.destroy_all
+
+  # Create an empty shopping list
+  user_profile.shopping_lists.create!(items: [])
+end
+
+When('I try to remove any ingredient') do
+  user_profile = UserProfile.find_by(name: "Heidy")
+  shopping_list = user_profile.shopping_lists.last
+
+  # Try to remove a non-existent ingredient
+  page.driver.submit :delete, destroy_item_shopping_list_path(shopping_list, ingredient_name: "Nonexistent"), {}
+end
+
+Then('the shopping list should remain empty') do
+  user_profile = UserProfile.find_by(name: "Heidy")
+  shopping_list = user_profile.shopping_lists.last
+
+  expect(shopping_list.items).to be_empty
+end
+
+Then('no error should occur') do
+  # Check we're not on an error page
+  expect(page.status_code).to eq(200)
+  expect(page).not_to have_content("Internal Server Error")
+  expect(page).not_to have_content("Routing Error")
+end
+
+When('I visit a shopping list page with an invalid ID') do
+  # Try to visit a shopping list that doesn't exist
+  # This should trigger ActiveRecord::RecordNotFound
+  begin
+    visit shopping_list_path(id: 999999)
+  rescue ActiveRecord::RecordNotFound
+    # This is expected - the controller's show action raises this
+    @record_not_found_error = true
+  end
+end
+
+Then('I should see a {string} error') do |error_type|
+  case error_type
+  when "record not found"
+    # In test environment, ActiveRecord::RecordNotFound is usually raised
+    # and not rescued, so we should have caught it above
+    expect(@record_not_found_error).to be true
+  end
+end

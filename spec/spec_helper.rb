@@ -12,15 +12,20 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter '/spec/'
-  add_filter 'app/helpers'
-  add_filter 'app/jobs'
-  add_filter 'app/mailers'
-  add_filter 'app/channels'
-  add_filter 'app/assets'
+
+if ENV['COVERAGE'] == 'rspec'
+
+  SimpleCov.start 'rails' do
+    add_filter '/spec/'
+    add_filter 'app/helpers'
+    add_filter 'app/jobs'
+    add_filter 'app/mailers'
+    add_filter 'app/channels'
+    add_filter 'app/assets'
+  end
+  puts "→ SimpleCov is tracking code coverage..."
 end
-puts "→ SimpleCov is tracking code coverage..."
+
 
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

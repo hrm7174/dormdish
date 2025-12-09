@@ -7,15 +7,19 @@ require 'rspec/expectations'
 
 ActionController::Base.allow_rescue = false
 
-SimpleCov.start 'rails' do
-  # Configuration for Rails
-  add_filter '/vendor/'
-  add_filter '/spec/'
-  add_filter '/test/'
+if ENV['COVERAGE'] == 'cucumber'
+  require 'simplecov'
 
-  # Track feature file usage
-  track_files 'app/**/*.rb'
-  track_files 'lib/**/*.rb'
+  SimpleCov.start 'rails' do
+    command_name 'Cucumber'
+    coverage_dir 'coverage/cucumber'
+
+    # Cucumber-specific filters
+    add_filter '/spec/'
+
+    # Don't merge with other reports
+    use_merging false
+  end
 end
 
 Capybara.register_driver :selenium do |app|
