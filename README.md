@@ -40,10 +40,14 @@ rails s -b 0.0.0.0
 RAILS_ENV=test bundle exec rails db:prepare
 bundle exec rspec --format documentation
 ```
+or
+```
+COVERAGE=rspec bundle exec rspec 
+```
 
 ### Step 2: Run the `cucumber` tests
 ```
-bundle exec cucumber
+COVERAGE=cucumber bundle exec cucumber
 ```
 ## Links
   

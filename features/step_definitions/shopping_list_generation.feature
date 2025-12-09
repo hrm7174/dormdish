@@ -38,7 +38,6 @@ Feature: Generate shopping list from meal plan
     Then I should see "Total Weekly Cost:"
     And I should see "My Weekly Meal Plan"
 
-  # NEW: Test deleting items from shopping list
   Scenario: User can remove items from shopping list
     Given I am logged in as "Heidy"
     And I have "Overnight Oats" in my meal plan for "Monday" "Breakfast"
@@ -51,7 +50,6 @@ Feature: Generate shopping list from meal plan
     Then I should not see "Oats" in my shopping list
     And the shopping list should be updated without "Oats"
 
-  # NEW: Test filtering shopping list by recipe
   Scenario: User can filter shopping list by recipe
     Given I am logged in as "Heidy"
     And I have "Overnight Oats" in my meal plan for "Monday" "Breakfast"
@@ -92,4 +90,35 @@ Feature: Generate shopping list from meal plan
     When I visit a shopping list page with an invalid ID
     Then I should see a "record not found" error
 
-    
+
+
+  Scenario: User marks items with mixed purchased key types
+    Given I am logged in as "Heidy"
+    And I have a shopping list with items having different purchased key formats
+    When I view the purchased items count
+    Then the purchased count should correctly count items with both string and symbol keys
+
+  Scenario: User removes ingredient from shopping list via model method
+    Given I am logged in as "Heidy"
+    And I have "Overnight Oats" in my meal plan for "Monday" "Breakfast"
+    When I generate a shopping list
+    And I remove "Oats" from the shopping list via model
+    Then "Oats" should not be in the shopping list items
+    And the shopping list should be saved
+
+  Scenario: Purchased count is zero for empty shopping list
+    Given I am logged in as "Heidy"
+    And I have an empty shopping list
+    When I check the purchased items count
+    Then the purchased count should be 0
+
+  Scenario: Purchased count handles nil and false values correctly
+    Given I am logged in as "Heidy"
+    And I have a shopping list with items having various purchased states:
+      | Item  | Purchased |
+      | Oats  | true      |
+      | Milk  | false     |
+      | Honey |           |
+      | Sugar | nil       |
+    When I check the purchased items count
+    Then the purchased count should be 1
